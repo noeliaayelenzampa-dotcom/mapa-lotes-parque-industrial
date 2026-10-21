@@ -232,7 +232,8 @@
     if (l.estado === "disponible" || l.estado === "libre privado") {
       return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + (l.partida ? "<br>Pda. " + esc(l.partida) : "");
     }
-    if ((l.estado === "en actividad" || l.estado === "en construccion" || l.estado === "inactivo") && l.razon_social) return esc(l.razon_social);
+    // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
+    if (l.razon_social && l.estado !== "usurpado") return esc(l.razon_social);
     return null;
   }
   function pintarEtiquetas() {
