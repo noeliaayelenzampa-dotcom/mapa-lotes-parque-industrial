@@ -239,13 +239,19 @@
     if (!etiquetas || state.planoCompleto) { if (etiquetas) etiquetas.clearLayers(); return; }
     etiquetas.clearLayers();
     var T = state.vista === "satelite" ? fitAffine(georefPts()) : null;
-    var z = map.getZoom(), escala = T ? 1 : Math.pow(2, z);
+    var z = map.getZoom(), escala = Math.pow(2, z);
+    if (T) {
+      // Píxeles por unidad del plano en el mapa satelital (escala del plano en metros).
+      var mPorUnidad = (state.geoMeta && state.geoMeta.scale_m_per_pt) || 1.59;
+      var mPorPx = 156543.03 * Math.cos(map.getCenter().lat * Math.PI / 180) / Math.pow(2, z);
+      escala = mPorUnidad / mPorPx;
+    }
     state.lotes.forEach(function (l) {
       var html = rotulo(l); if (!html || !l.c) return;
       // Mostrar solo si el texto entra en el lote a este zoom.
       var radioPx = (l.r || 0) * escala;
       var largo = html.replace(/<[^>]+>/g, " ").split(" ").reduce(function (m, w) { return Math.max(m, w.length); }, 0);
-      if (!T && (radioPx < 14 || radioPx * 2 < Math.min(largo, 14) * 6)) return;
+      if (radioPx < 14 || radioPx * 2 < Math.min(largo, 14) * 6) return;
       var pos = T ? T(l.c) : l.c;
       var cls = "rot " + (l.estado === "disponible" || l.estado === "libre privado" ? "rot-disp" : "rot-emp");
       L.marker(pos, { interactive: false, icon: L.divIcon({ className: cls, html: '<span style="max-width:' + Math.max(60, Math.min(170, radioPx * 2)) + 'px">' + html + "</span>", iconSize: null }) }).addTo(etiquetas);

@@ -29,7 +29,11 @@ window.PARQUE_CONFIG = {
   // Puntos de control para ubicar el plano sobre la imagen satelital.
   // Se generan con la herramienta "Ubicar en satélite" del modo gestión.
   // Formato: { nombre, plano: [y, x], gps: [lat, lng] }
-  georef: [],
+  georef: [
+    {"nombre": "Hernandarias y Arq. Walter Grand", "plano": [-423.75, 1180], "gps": [-31.768788, -60.446883]},
+    {"nombre": "Hernandarias y Salellas", "plano": [-429.76, 496], "gps": [-31.767073, -60.458292]},
+    {"nombre": "Salellas y Robinson", "plano": [-1109.91, 494], "gps": [-31.776801, -60.460239]}
+  ],
 
   // Versión pública: sin botón de modo gestión (se entra con #gestion)
   // y sin el plano completo de Catastro, que no se publica.
