@@ -158,7 +158,9 @@
       filas.forEach(function (f) { porId[f.id] = f; });
       var edits = store(LS_EDITS) || {};
       state.geoMeta = g;
-      state.lotes = g.lotes.map(function (gl) {
+      // Solo se dibujan los lotes que figuran en la planilla (los que se sacan de ahí, desaparecen del mapa).
+      var lotesGeo = filas.length ? g.lotes.filter(function (gl) { return porId[gl.id]; }) : g.lotes;
+      state.lotes = lotesGeo.map(function (gl) {
         var l = Object.assign({ id: gl.id }, porId[gl.id] || {}, edits[gl.id] || {});
         l.estado = (l.estado || "sin datos").toLowerCase();
         l.ll = gl.ll; l.c = gl.c; l.r = gl.r;
