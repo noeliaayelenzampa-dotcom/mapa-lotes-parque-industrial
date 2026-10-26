@@ -234,6 +234,7 @@
     if (l.estado === "disponible" || l.estado === "libre privado") {
       return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + (l.partida ? "<br>Pda. " + esc(l.partida) : "");
     }
+    if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
     // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
     if (l.razon_social && l.estado !== "usurpado") return esc(l.razon_social);
     return null;
@@ -341,7 +342,7 @@
     var filas = [
       ["Superficie", (supEsOficial(l) ? fmtM2(num(l.superficie_m2)) + ' <span class="mono">(' + num(l.superficie_m2).toLocaleString("es-AR", { minimumFractionDigits: 2 }) + " m²)</span>" : "≈ " + fmtM2(sup(l)) + ' <span class="nota">medida sobre plano</span>')],
       ["Ubicación", esc(["Manzana " + (l.manzana || "s/d"), l.fraccion ? "Fracción " + l.fraccion : "", l.lote ? "Lote " + l.lote : ""].filter(Boolean).join(" · "))],
-      l.razon_social ? ["Empresa", esc(l.razon_social)] : null,
+      l.razon_social ? [/actividad|construccion|inactivo/.test(l.estado) ? "Empresa" : "Nombre", esc(l.razon_social)] : null,
       l.rubro ? ["Rubro", esc(l.rubro)] : null,
       l.partida && !gest && /disponible|libre privado/.test(l.estado) ? ["Partida", '<span class="mono">' + esc(l.partida) + "</span>"] : null,
       l.frente_m ? ["Frente", esc(l.frente_m) + " m"] : null,
@@ -435,7 +436,7 @@
   function pintarCalib() {
     if (!calibLayer) return;
     calibLayer.clearLayers();
-    if (state.vista !== "plano") return;
+    if (state.vista !== "plano" || !state.calibrando) return;
     state.calibPts.forEach(function (p, i) {
       L.circleMarker(p.plano, { radius: 7, color: cssVar("--accent"), weight: 3, fillOpacity: 0.2 })
         .bindTooltip(String(i + 1), { permanent: true, direction: "right", className: "lbl-lote" }).addTo(calibLayer);
