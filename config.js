@@ -9,7 +9,7 @@ window.PARQUE_CONFIG = {
   contacto: {
     area: "Dirección del Parque Industrial · Municipalidad de Paraná",
     direccion: "Salellas y Hernandarias, Paraná",
-    email: "",
+    email: "parqueindustrialparana@gmail.com",
     telefono: "0343 430-1050",
     telefono2: "0343 15-405-8296"
   },
