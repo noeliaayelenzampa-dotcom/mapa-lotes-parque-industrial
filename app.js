@@ -234,7 +234,8 @@
   function rotulo(l) {
     if (!pasaFiltro(l)) return null;
     if (l.estado === "disponible" || l.estado === "libre privado") {
-      return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + (l.partida && l.estado === "disponible" ? "<br>Pda. " + esc(l.partida) : "");
+      // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
+      return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
     }
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
     // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
@@ -326,7 +327,7 @@
     $("lista").innerHTML = mostrar.map(function (l) {
       var e = estadoInfo(l.estado);
       if (esPulmonVerde(l)) e = { key: e.key, label: "No disponible", css: "--st-pulmon" };
-      var sub = [e.label, l.razon_social || l.rubro || null, l.partida ? "Pda. " + l.partida : null].filter(Boolean).join(" · ");
+      var sub = [e.label, l.razon_social || l.rubro || null, state.gestion && l.partida ? "Pda. " + l.partida : null].filter(Boolean).join(" · ");
       return '<li><button type="button" class="fila" data-id="' + esc(l.id) + '">' +
         '<span class="dot" style="background:var(' + e.css + ')"></span>' +
         '<span><span class="id">' + esc(l.id) + '</span><span class="sub">' + esc(sub) + "</span></span>" +
@@ -350,7 +351,7 @@
       ["Ubicación", esc(["Manzana " + (l.manzana || "s/d"), l.fraccion ? "Fracción " + l.fraccion : "", l.lote ? "Lote " + l.lote : ""].filter(Boolean).join(" · "))],
       l.razon_social ? [/actividad|construccion|inactivo/.test(l.estado) ? "Empresa" : "Nombre", esc(l.razon_social)] : null,
       l.rubro ? ["Rubro", esc(l.rubro)] : null,
-      l.partida && !gest && l.estado === "disponible" ? ["Partida", '<span class="mono">' + esc(l.partida) + "</span>"] : null,
+      ["Código", '<span class="mono">' + esc(l.id) + "</span>"],
       l.frente_m ? ["Frente", esc(l.frente_m) + " m"] : null,
       l.servicios ? ["Servicios", esc(l.servicios)] : null,
       l.precio ? ["Valor", esc(l.precio)] : null,
