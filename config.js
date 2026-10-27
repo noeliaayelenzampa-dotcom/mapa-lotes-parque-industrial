@@ -8,9 +8,19 @@ window.PARQUE_CONFIG = {
   // Contacto que ve el interesado en cada ficha.
   contacto: {
     area: "Dirección del Parque Industrial · Municipalidad de Paraná",
+    direccion: "Salellas y Hernandarias, Paraná",
     email: "",
-    telefono: ""
+    telefono: "0343 430-1050",
+    telefono2: "0343 15-405-8296"
   },
+
+  // Cifras de la página de inicio (fuente: informe de datos del parque, octubre 2026).
+  cifras: [
+    { valor: "1979", texto: "año de inauguración" },
+    { valor: "120 ha", texto: "destinadas a lotes industriales" },
+    { valor: "49", texto: "empresas en actividad" },
+    { valor: "2.584", texto: "empleos directos" }
+  ],
 
   // De dónde salen los datos de cada lote.
   // Por defecto, el archivo data/lotes.csv del repositorio.

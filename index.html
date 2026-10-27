@@ -3,86 +3,252 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lotes Parque Industrial Paraná</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Mapa interactivo de lotes del Parque Industrial General Manuel Belgrano, Paraná.">
+<title>Parque Industrial Paraná</title>
+<meta name="description" content="Parque Industrial General Manuel Belgrano, Paraná, Entre Ríos: lotes disponibles, beneficios para radicarse, servicios y empresas radicadas.">
+<script>
+  // Links viejos del mapa (#lote-..., #gestion) siguen funcionando.
+  if (/^#(lote-|gestion)/.test(location.hash)) location.replace("mapa.html" + location.hash);
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="vendor/leaflet.css">
-<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="sitio.css">
 </head>
 <body>
-<div class="app">
-  <header class="top">
-    <div class="brand">
-      <p class="eyebrow" id="subtitulo">Paraná, Entre Ríos · Lotes y parcelas</p>
-      <h1 id="nombre">Parque Industrial General Manuel Belgrano</h1>
-    </div>
-    <div class="vista" role="group" aria-label="Vista del mapa">
-      <button type="button" id="btn-plano" class="seg on" aria-pressed="true">Plano</button>
-      <button type="button" id="btn-sat" class="seg" aria-pressed="false">Satélite</button>
-    </div>
-  </header>
+<a class="saltar" href="#lotes">Ir a lotes disponibles</a>
 
-  <main class="body">
-    <section class="mapwrap" aria-label="Mapa de lotes">
-      <div id="map"></div>
-      <div class="leyenda" id="leyenda" aria-label="Referencias"></div>
-      <p class="aviso-sat" id="aviso-sat" hidden></p>
-    </section>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="marca" href="#inicio">
+      <span class="marca-t">Parque Industrial<br>Gral. Manuel Belgrano</span>
+      <span class="marca-s">Municipalidad de Paraná</span>
+    </a>
+    <nav aria-label="Secciones">
+      <a href="#lotes">Lotes</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#empresas">Empresas</a>
+      <a href="#radicarse">Cómo radicarse</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-sm" href="mapa.html">Mapa de lotes</a>
+  </div>
+</header>
 
-    <aside class="panel" id="panel">
-      <div class="ficha" id="ficha" hidden></div>
-
-      <div class="bloque" id="bloque-filtros">
-        <div class="resumen" id="resumen" role="group" aria-label="Filtrar por estado"></div>
-        <div class="filtros">
-          <label class="campo">
-            <span>Superficie mínima</span>
-            <select id="f-sup">
-              <option value="0">Cualquiera</option>
-              <option value="2000">2.000 m²</option>
-              <option value="5000">5.000 m²</option>
-              <option value="10000">1 ha</option>
-              <option value="20000">2 ha</option>
-              <option value="50000">5 ha</option>
-            </select>
-          </label>
-          <label class="campo grow">
-            <span>Buscar</span>
-            <input id="f-q" type="search" placeholder="Código de lote, manzana o empresa" autocomplete="off">
-          </label>
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap hero-in">
+      <div class="hero-txt">
+        <p class="eyebrow">Paraná · Entre Ríos · Desde 1979</p>
+        <h1>Suelo industrial con servicios en el corazón de la Mesopotamia</h1>
+        <p class="lead">Lotes disponibles, beneficios impositivos municipales y provinciales, e infraestructura lista para producir, sobre la continuación de la Ruta Nacional 12.</p>
+        <div class="ctas">
+          <a class="btn" href="#lotes">Ver lotes disponibles</a>
+          <a class="btn ghost" href="#radicarse">Cómo radicarse</a>
         </div>
       </div>
+      <figure class="hero-plano">
+        <a href="mapa.html" class="plano-link" aria-label="Abrir el mapa interactivo de lotes">
+          <svg id="mini-plano" role="img" aria-label="Plano del parque con los lotes disponibles resaltados"></svg>
+        </a>
+        <figcaption><span class="dot" style="background:var(--st-disponible)"></span>Disponible (Municipalidad)
+          <span class="dot" style="background:var(--st-libreprivado)"></span>Disponible (privado)
+          <span class="dot" style="background:var(--st-pulmon)"></span>Pulmón Verde</figcaption>
+      </figure>
+    </div>
+    <div class="wrap">
+      <dl class="cifras" id="cifras"></dl>
+    </div>
+  </section>
 
-      <div class="lista-head">
-        <h2 id="lista-titulo">Lotes</h2>
-        <span class="mono" id="lista-n"></span>
+  <section class="sec" id="lotes" aria-labelledby="t-lotes">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Lotes</p>
+        <h2 id="t-lotes">Lotes disponibles hoy</h2>
+        <p class="sec-lead" id="lotes-resumen">Cargando lotes…</p>
       </div>
-      <ol class="lista" id="lista"></ol>
-
-      <div class="bloque gestion" id="gestion" hidden>
-        <h2>Modo gestión</h2>
-        <p class="nota">Los cambios que hagas en las fichas quedan guardados en este navegador. Para que los vean todos, copiá la tabla y pegala en la planilla de datos.</p>
-        <div class="acciones">
-          <button type="button" class="btn" id="btn-copiar-tabla">Copiar tabla</button>
-          <button type="button" class="btn ghost" id="btn-plano-completo">Ver plano completo de Catastro</button>
-          <button type="button" class="btn ghost" id="btn-calibrar">Ubicar en satélite</button>
-          <button type="button" class="btn ghost" id="btn-borrar-local">Descartar cambios locales</button>
-        </div>
-        <p class="toast" id="toast-gestion" role="status"></p>
-        <div class="calib" id="calib" hidden></div>
+      <div class="lotes" id="lotes-grid"></div>
+      <div class="sec-pie">
+        <a class="btn" href="mapa.html">Abrir el mapa interactivo</a>
+        <p class="nota">Superficies con ≈ medidas sobre el plano de Catastro. Datos sujetos a verificación.</p>
       </div>
+    </div>
+  </section>
 
-      <footer class="pie">
-        <p id="fuente"></p>
-        <button type="button" class="link" id="btn-gestion">Modo gestión</button>
-      </footer>
-    </aside>
-  </main>
-</div>
-<script src="vendor/leaflet.js"></script>
+  <section class="sec alt" id="beneficios" aria-labelledby="t-ben">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Beneficios</p>
+        <h2 id="t-ben">Beneficios para radicarse</h2>
+        <p class="sec-lead">Para empresas que se radican por primera vez en el parque.</p>
+      </div>
+      <div class="ben">
+        <article class="card">
+          <h3>Municipales</h3>
+          <p class="card-sub">Régimen de Promoción Industrial · Ordenanza N° 8560</p>
+          <ul class="big-list">
+            <li><b>100%</b><span>de exención de tributos municipales durante los primeros 5 años</span></li>
+            <li><b>50%</b><span>de exención durante los 5 años siguientes</span></li>
+            <li><b>+5 años</b><span>adicionales en función de las inversiones</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Provinciales</h3>
+          <p class="card-sub">Promoción industrial de Entre Ríos</p>
+          <ul class="big-list">
+            <li><b>100%</b><span>de exención durante 15 años en Ingresos Brutos, Inmobiliario, Sellos y Automotor</span></li>
+            <li><b>15% · 8% · 4%</b><span>de reintegro del consumo de energía, con 5% adicional si se usan energías renovables</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Financiamiento</h3>
+          <p class="card-sub">Compra de parcelas</p>
+          <p>Planes de financiamiento para la compra de lotes municipales, mediante convenio de pago.</p>
+        </article>
+      </div>
+      <p class="nota">Los beneficios dependen del régimen vigente y de la aprobación de cada proyecto. Consultá las condiciones actualizadas con la Dirección del Parque Industrial.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="servicios" aria-labelledby="t-serv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Infraestructura</p>
+        <h2 id="t-serv">Servicios a la puerta de tu lote</h2>
+      </div>
+      <div class="serv">
+        <article class="card">
+          <h3>Servicios de red</h3>
+          <ul class="tick">
+            <li>Agua potable</li>
+            <li>Energía eléctrica en media y baja tensión</li>
+            <li>Gas natural</li>
+            <li>Cloacas y desagües pluviales</li>
+            <li>Internet por fibra óptica</li>
+            <li>Alumbrado LED</li>
+            <li>Red vial interna apta para tránsito pesado</li>
+            <li>Línea de colectivo urbano</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>En el predio</h3>
+          <ul class="tick">
+            <li>Oficinas administrativas de la Dirección</li>
+            <li>Salón de usos múltiples (SUM)</li>
+            <li>Sala de primeros auxilios</li>
+            <li>Posta del 107 (emergencias)</li>
+            <li>Sucursal y cajero del Banco Entre Ríos</li>
+            <li>Sede de la Policía Rural</li>
+            <li>Estacionamiento para camiones</li>
+            <li>Cerco perimetral y áreas verdes</li>
+          </ul>
+        </article>
+        <article class="card card-dato">
+          <h3>Seguridad</h3>
+          <div class="datos-g">
+            <p><b>25</b><span>cámaras de videovigilancia</span></p>
+            <p><b>24/7</b><span>centro de monitoreo</span></p>
+          </div>
+          <p class="nota">Videovigilancia y centro de monitoreo propios del parque.</p>
+        </article>
+        <article class="card card-dato">
+          <h3>Parque Solar Fotovoltaico</h3>
+          <div class="datos-g">
+            <p><b>10.400</b><span>paneles</span></p>
+            <p><b>7,38 MWp</b><span>potencia instalada</span></p>
+            <p><b>12 GWh</b><span>generación anual</span></p>
+          </div>
+          <p class="nota">Financiado al 100% con fondos propios del Municipio de Paraná. En proceso de puesta en marcha.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="ubicacion" aria-labelledby="t-ubi">
+    <div class="wrap ubi">
+      <div>
+        <p class="eyebrow">Ubicación</p>
+        <h2 id="t-ubi">Localización estratégica</h2>
+        <p class="sec-lead">Sobre calle Antonio Salellas, continuación de la Ruta Nacional 12. A 5 km de la Ruta Nacional 18, 7 km del Túnel Subfluvial y 8 km del centro de Paraná.</p>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-31.7705,-60.4535">Ver en Google Maps</a>
+      </div>
+      <ul class="dist">
+        <li><b>35 km</b><span>Santa Fe</span></li>
+        <li><b>46 km</b><span>Puerto Diamante</span></li>
+        <li><b>200 km</b><span>Rosario</span></li>
+        <li><b>400 km</b><span>Córdoba</span></li>
+        <li><b>400 km</b><span>Puerto Zárate</span></li>
+        <li><b>470 km</b><span>Buenos Aires</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="empresas" aria-labelledby="t-emp">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Empresas</p>
+        <h2 id="t-emp">Empresas radicadas</h2>
+        <p class="sec-lead">Tocá un logo para ir a la web de la empresa.</p>
+      </div>
+      <div class="emp-filtros">
+        <div class="chips" id="emp-chips" role="group" aria-label="Filtrar por sector"></div>
+        <label class="buscar"><span class="sr">Buscar empresa</span>
+          <input id="emp-q" type="search" placeholder="Buscar empresa o actividad" autocomplete="off"></label>
+      </div>
+      <ul class="emp" id="emp-grid"></ul>
+    </div>
+  </section>
+
+  <section class="sec alt" id="radicarse" aria-labelledby="t-rad">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Radicación</p>
+        <h2 id="t-rad">Cómo radicarse</h2>
+      </div>
+      <ol class="pasos">
+        <li><b>Consulta</b><span>Contactá a la Dirección del Parque Industrial para conocer los lotes disponibles y las condiciones.</span></li>
+        <li><b>Solicitud de radicación</b><span>Presentá el formulario de solicitud con la documentación de la empresa y el proyecto.</span></li>
+        <li><b>Evaluación</b><span>La Comisión Municipal de Desarrollo analiza el proyecto y emite su dictamen.</span></li>
+        <li><b>Adjudicación</b><span>Decreto de adjudicación del lote, convenio de pago e inicio de obra en los plazos establecidos.</span></li>
+      </ol>
+      <p class="nota">Marco normativo: Ordenanza N° 8560 (Promoción Industrial), Decreto N° 1263/2013 (adjudicación de parcelas), Decreto N° 254/1978 (ocupación y edificación) y Ordenanza N° 10117 (Distrito EUPI).</p>
+    </div>
+  </section>
+
+  <section class="sec" id="comunidad" aria-labelledby="t-com">
+    <div class="wrap com">
+      <article class="card">
+        <h3 id="t-com">Comisión Municipal de Desarrollo</h3>
+        <p>Espacio de articulación entre el Ejecutivo municipal, el Concejo Deliberante y las empresas radicadas. Interviene en adjudicaciones, promoción industrial y planificación del parque.</p>
+      </article>
+      <article class="card">
+        <h3>ASEMPI</h3>
+        <p>Asociación de Empresas del Parque Industrial: más de 40 industrias asociadas. Tiene un portal de empleo que conecta postulantes con las empresas del parque.</p>
+        <p class="links"><a href="https://asempi.org.ar" target="_blank" rel="noopener">asempi.org.ar</a> · <a href="https://asempi.org.ar/cv" target="_blank" rel="noopener">Cargar CV</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec contacto" id="contacto" aria-labelledby="t-con">
+    <div class="wrap con">
+      <div>
+        <p class="eyebrow">Contacto</p>
+        <h2 id="t-con">¿Querés radicar tu empresa?</h2>
+        <p class="sec-lead" id="con-area"></p>
+      </div>
+      <ul class="con-datos" id="con-datos"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="wrap">
+    <p>Parque Industrial General Manuel Belgrano · Municipalidad de Paraná, Entre Ríos.</p>
+    <p class="nota">Plano: Dirección de Catastro Municipal. Datos de lotes preliminares y sujetos a verificación. Logos y descripciones: Catálogo de Empresas del Parque Industrial.</p>
+  </div>
+</footer>
+
 <script src="config.js"></script>
-<script src="app.js"></script>
+<script src="sitio.js"></script>
 </body>
 </html>

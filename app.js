@@ -148,6 +148,14 @@
   function cargar() {
     var geo = fetch("data/geometria.json").then(function (r) { return r.json(); });
     fetch("data/calles.json").then(function (r) { return r.json(); }).then(function (c) { state.calles = c; if (map) pintarEtiquetas(); }).catch(function () {});
+    // Empresas (logo y web) para mostrar en la ficha del lote. Si falta el archivo, el mapa funciona igual.
+    fetch("data/empresas.csv").then(function (r) { return r.ok ? r.text() : ""; }).then(function (t) {
+      state.empresaDeLote = {};
+      if (t) parseCSV(t).forEach(function (e) {
+        String(e.Lotes || "").split(",").forEach(function (id) { id = id.trim(); if (id) state.empresaDeLote[id] = e; });
+      });
+      if (state.selected) pintarFicha();
+    }).catch(function () {});
     fetch("data/manzanas.json").then(function (r) { return r.json(); }).then(function (m) { state.manzanas = m; if (map) pintarEtiquetas(); }).catch(function () {});
     var datos = fetch(CFG.fuenteDatos || "data/lotes.csv").then(function (r) {
       if (!r.ok) throw new Error("No se pudo leer la planilla de datos (" + r.status + ").");
@@ -397,6 +405,13 @@
       gest && l.verificar ? ["A verificar", esc(l.verificar)] : null,
       gest ? ["Fuente", l.fuente === "registro" ? "Registro del parque" : "Solo plano de Catastro"] : null
     ].filter(Boolean);
+    var emp = (state.empresaDeLote || {})[l.id], empHTML = "";
+    if (emp && (emp.Logo || emp.Web)) {
+      var url = emp.Web ? (/^https?:/.test(emp.Web) ? emp.Web : "https://" + emp.Web) : "";
+      var dentro = (emp.Logo ? '<span class="lg"><img src="img/logos/' + esc(emp.Logo) + '" alt="" loading="lazy"></span>' : "") +
+        "<span><b>" + esc(emp.Empresa) + "</b><span>" + esc(emp.Actividad || "") + (url ? " · " + esc(emp.Web.replace(/^https?:\/\//, "").replace(/\/$/, "")) : "") + "</span></span>";
+      empHTML = url ? '<a class="emp-ficha" href="' + esc(url) + '" target="_blank" rel="noopener">' + dentro + "</a>" : '<div class="emp-ficha">' + dentro + "</div>";
+    }
     var c = CFG.contacto || {};
     var contacto = [c.area, c.email, c.telefono].filter(Boolean).map(esc).join(" · ");
     var msg = "Lote " + l.id + " (" + estadoInfo(l.estado).label.toLowerCase() + ") del " + (CFG.nombre || "Parque Industrial") + " (" + fmtM2(sup(l)) + "): " + linkLote(l.id);
@@ -404,6 +419,7 @@
       '<div class="ficha-top"><h2>Lote ' + esc(l.id) + "<small>" + esc(l.tipo && l.tipo !== "lote" ? l.tipo : "Parque Industrial") + "</small></h2>" +
       '<button type="button" class="cerrar" id="ficha-cerrar" aria-label="Cerrar ficha">×</button></div>' +
       '<span class="estado"><span class="dot" style="background:var(' + e.css + ')"></span>' + e.label + "</span>" +
+      empHTML +
       '<dl class="datos">' + filas.map(function (r) { return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") + "</dl>" +
       '<div class="acciones">' +
       '<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Compartir por WhatsApp</a>' +

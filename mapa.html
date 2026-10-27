@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa de lotes · Parque Industrial Paraná</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mapa interactivo de lotes del Parque Industrial General Manuel Belgrano, Paraná.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <a class="volver" href="./">← Inicio</a>
+      <p class="eyebrow" id="subtitulo">Paraná, Entre Ríos · Lotes y parcelas</p>
+      <h1 id="nombre">Parque Industrial General Manuel Belgrano</h1>
+    </div>
+    <div class="vista" role="group" aria-label="Vista del mapa">
+      <button type="button" id="btn-plano" class="seg on" aria-pressed="true">Plano</button>
+      <button type="button" id="btn-sat" class="seg" aria-pressed="false">Satélite</button>
+    </div>
+  </header>
+
+  <main class="body">
+    <section class="mapwrap" aria-label="Mapa de lotes">
+      <div id="map"></div>
+      <div class="leyenda" id="leyenda" aria-label="Referencias"></div>
+      <p class="aviso-sat" id="aviso-sat" hidden></p>
+    </section>
+
+    <aside class="panel" id="panel">
+      <div class="ficha" id="ficha" hidden></div>
+
+      <div class="bloque" id="bloque-filtros">
+        <div class="resumen" id="resumen" role="group" aria-label="Filtrar por estado"></div>
+        <div class="filtros">
+          <label class="campo">
+            <span>Superficie mínima</span>
+            <select id="f-sup">
+              <option value="0">Cualquiera</option>
+              <option value="2000">2.000 m²</option>
+              <option value="5000">5.000 m²</option>
+              <option value="10000">1 ha</option>
+              <option value="20000">2 ha</option>
+              <option value="50000">5 ha</option>
+            </select>
+          </label>
+          <label class="campo grow">
+            <span>Buscar</span>
+            <input id="f-q" type="search" placeholder="Código de lote, manzana o empresa" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="lista-head">
+        <h2 id="lista-titulo">Lotes</h2>
+        <span class="mono" id="lista-n"></span>
+      </div>
+      <ol class="lista" id="lista"></ol>
+
+      <div class="bloque gestion" id="gestion" hidden>
+        <h2>Modo gestión</h2>
+        <p class="nota">Los cambios que hagas en las fichas quedan guardados en este navegador. Para que los vean todos, copiá la tabla y pegala en la planilla de datos.</p>
+        <div class="acciones">
+          <button type="button" class="btn" id="btn-copiar-tabla">Copiar tabla</button>
+          <button type="button" class="btn ghost" id="btn-plano-completo">Ver plano completo de Catastro</button>
+          <button type="button" class="btn ghost" id="btn-calibrar">Ubicar en satélite</button>
+          <button type="button" class="btn ghost" id="btn-borrar-local">Descartar cambios locales</button>
+        </div>
+        <p class="toast" id="toast-gestion" role="status"></p>
+        <div class="calib" id="calib" hidden></div>
+      </div>
+
+      <footer class="pie">
+        <p id="fuente"></p>
+        <button type="button" class="link" id="btn-gestion">Modo gestión</button>
+      </footer>
+    </aside>
+  </main>
+</div>
+<script src="vendor/leaflet.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

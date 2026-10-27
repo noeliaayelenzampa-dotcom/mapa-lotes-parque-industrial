@@ -203,3 +203,12 @@ button, input, select { font: inherit; color: inherit; }
 
 .dot-oferta { background: transparent; border: 2px dashed var(--st-oferta); }
 .rot .of { display: inline-block; font: 700 9.5px/1 var(--f-body); letter-spacing: .05em; color: #fff; background: var(--st-oferta); padding: 2px 5px; border-radius: 3px; text-shadow: none; margin-bottom: 2px; }
+
+.volver { display: inline-block; font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; margin-bottom: 2px; }
+.volver:hover { text-decoration: underline; }
+.emp-ficha { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-decoration: none; color: inherit; }
+.emp-ficha .lg { flex: none; width: 92px; height: 52px; display: grid; place-items: center; background: #fff; border-radius: 6px; padding: 4px; }
+.emp-ficha img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.emp-ficha b { display: block; font-size: 14px; }
+.emp-ficha span { font-size: 12px; color: var(--muted); }
+a.emp-ficha:hover { border-color: var(--accent); }
