@@ -22,6 +22,7 @@
   --st-nodisp: #c98b7a;
   --st-sindatos: #b9c0bb;
   --st-pulmon: #5f8a3a;
+  --st-oferta: #b4337a;
   --st-solar: #3d5a99;
   --st-calle: #c7cbc6;
 
@@ -199,3 +200,6 @@ button, input, select { font: inherit; color: inherit; }
   .leyenda { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+.dot-oferta { background: transparent; border: 2px dashed var(--st-oferta); }
+.rot .of { display: inline-block; font: 700 9.5px/1 var(--f-body); letter-spacing: .05em; color: #fff; background: var(--st-oferta); padding: 2px 5px; border-radius: 3px; text-shadow: none; margin-bottom: 2px; }

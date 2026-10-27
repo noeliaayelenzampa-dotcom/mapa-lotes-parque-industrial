@@ -173,6 +173,12 @@
   // ---------- mapa ----------
   // Los pulmones verdes tienen color propio (aunque su estado sea "no disponible").
   function esPulmonVerde(l) { return /pulm[oó]n\s+verde/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
+  // Oferta privada: "VENDE", "ALQUILA" o "VENDE / ALQUILA" al principio de Observaciones (públicas).
+  function oferta(l) {
+    var m = String(l.observaciones || "").trim().match(/^(vende|alquila)(\s*(\/|o|y|-)\s*(vende|alquila))?\b/i);
+    if (!m) return "";
+    return m[4] ? "En venta o alquiler" : (/^vende/i.test(m[1]) ? "En venta" : "En alquiler");
+  }
   function esFotovoltaico(l) { return /fotovoltaic/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
   function esCalle(l) { return /^calle$/i.test(l.tipo || ""); }
   function colorDe(l) {
@@ -187,9 +193,10 @@
     var base = colorDe(l);
     var sinDatos = l.estado === "sin datos";
     return {
-      color: sel ? cssVar("--accent") : base,
-      weight: sel ? 3 : 1,
+      color: sel ? cssVar("--accent") : (oferta(l) ? cssVar("--st-oferta") : base),
+      weight: sel ? 3 : (oferta(l) ? 2.5 : 1),
       fillColor: base,
+      dashArray: oferta(l) && !sel ? "6 4" : null,
       fillOpacity: !visible ? 0.04 : sel ? 0.55 : sinDatos ? 0.08 : (state.vista === "satelite" ? 0.45 : 0.38),
       opacity: visible ? 0.95 : 0.25
     };
@@ -240,6 +247,11 @@
   // Lotes en actividad: solo la razón social. Disponibles: m² y partida.
   function rotulo(l) {
     if (!pasaFiltro(l)) return null;
+    var base = rotuloBase(l), of = oferta(l);
+    if (of) return '<span class="of">' + of.toUpperCase() + "</span>" + (base ? "<br>" + base : "");
+    return base;
+  }
+  function rotuloBase(l) {
     if (l.estado === "disponible" || l.estado === "libre privado") {
       // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
       return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
@@ -300,7 +312,8 @@
   // En la vista pública "usurpado" se agrupa con "no disponible".
   function clave(k) { return !state.gestion && k === "usurpado" ? "no disponible" : k; }
   function pasaFiltro(l) {
-    if (state.filtroEstado && clave(l.estado) !== state.filtroEstado) return false;
+    if (state.filtroEstado === "oferta") { if (!oferta(l)) return false; }
+    else if (state.filtroEstado && clave(l.estado) !== state.filtroEstado) return false;
     if (state.supMin && sup(l) < state.supMin) return false;
     if (state.q) {
       var hay = [l.id, l.manzana, l.partida, l.rubro, l.razon_social, l.observaciones, puedeVerTitular() ? [l.propietario, l.adjudicatario, l.titular_plano].join(" ") : ""].join(" ").toLowerCase();
@@ -317,10 +330,14 @@
       return '<button type="button" class="chip" data-estado="' + e.key + '" aria-pressed="' + (state.filtroEstado === e.key) + '">' +
         '<span class="dot" style="background:var(' + e.css + ')"></span>' + e.label + ' <span class="n">' + cont[e.key] + "</span></button>";
     }).join("");
+    var nOf = state.lotes.filter(function (l) { return oferta(l); }).length;
+    if (nOf) $("resumen").innerHTML += '<button type="button" class="chip chip-oferta" data-estado="oferta" aria-pressed="' + (state.filtroEstado === "oferta") + '">' +
+      '<span class="dot dot-oferta"></span>Oferta privada <span class="n">' + nOf + "</span></button>";
     $("leyenda").innerHTML = ESTADOS.filter(function (e) { return cont[e.key]; }).map(function (e) {
       return '<span><i class="dot" style="background:var(' + e.css + ')"></i>' + e.label + "</span>";
     }).join("")
     if (state.lotes.some(esPulmonVerde)) $("leyenda").innerHTML += '<span><i class="dot" style="background:var(--st-pulmon)"></i>Pulmón Verde</span>';
+    if (state.lotes.some(function (l) { return oferta(l); })) $("leyenda").innerHTML += '<span><i class="dot dot-oferta"></i>Oferta privada (venta / alquiler)</span>';
     if (state.lotes.some(esFotovoltaico)) $("leyenda").innerHTML += '<span><i class="dot" style="background:var(--st-solar)"></i>Parque Fotovoltaico</span>';
   }
   var ORDEN = {};
@@ -365,6 +382,7 @@
       l.frente_m ? ["Frente", esc(l.frente_m) + " m"] : null,
       l.servicios ? ["Servicios", esc(l.servicios)] : null,
       l.precio ? ["Valor", esc(l.precio)] : null,
+      oferta(l) ? ["Oferta privada", "<b>" + esc(oferta(l)) + '</b><br><span class="nota">Oferta informada por el titular. Consultas a través de la Dirección del Parque Industrial.</span>'] : null,
       l.observaciones ? ["Observaciones", esc(l.observaciones)] : null,
       gest ? ["Partida munic.", l.partida ? '<span class="mono">' + esc(l.partida) + "</span>" : "—"] : null,
       gest && l.partida_prov ? ["Partida prov.", '<span class="mono">' + esc(l.partida_prov) + "</span>"] : null,
