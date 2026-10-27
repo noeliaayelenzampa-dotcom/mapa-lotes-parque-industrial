@@ -273,6 +273,7 @@
   function textoTip(l) {
     var e = estadoInfo(l.estado).label;
     if (l.razon_social && /actividad|construccion|inactivo/.test(l.estado)) return esc(l.razon_social);
+    if (esPulmonVerde(l)) return esc("Pulmón Verde · " + fmtM2(sup(l)));
     return esc(e + " · " + fmtM2(sup(l)));
   }
   function repintar() {
@@ -324,6 +325,7 @@
     var mostrar = state.verTodos ? vis : vis.slice(0, LIM);
     $("lista").innerHTML = mostrar.map(function (l) {
       var e = estadoInfo(l.estado);
+      if (esPulmonVerde(l)) e = { key: e.key, label: "No disponible", css: "--st-pulmon" };
       var sub = [e.label, l.razon_social || l.rubro || null, l.partida ? "Pda. " + l.partida : null].filter(Boolean).join(" · ");
       return '<li><button type="button" class="fila" data-id="' + esc(l.id) + '">' +
         '<span class="dot" style="background:var(' + e.css + ')"></span>' +
@@ -341,6 +343,7 @@
     var l = state.byId[state.selected], f = $("ficha");
     if (!l) { f.hidden = true; f.innerHTML = ""; return; }
     var e = estadoInfo(l.estado);
+    if (esPulmonVerde(l)) e = { key: e.key, label: "Pulmón Verde (no disponible)", css: "--st-pulmon" };
     var gest = state.gestion;
     var filas = [
       ["Superficie", (supEsOficial(l) ? fmtM2(num(l.superficie_m2)) + ' <span class="mono">(' + num(l.superficie_m2).toLocaleString("es-AR", { minimumFractionDigits: 2 }) + " m²)</span>" : "≈ " + fmtM2(sup(l)) + ' <span class="nota">medida sobre plano</span>')],
