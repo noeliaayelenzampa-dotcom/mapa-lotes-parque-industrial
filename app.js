@@ -171,7 +171,9 @@
   }
 
   // ---------- mapa ----------
-  function colorDe(l) { return cssVar(estadoInfo(l.estado).css); }
+  // Los pulmones verdes tienen color propio (aunque su estado sea "no disponible").
+  function esPulmonVerde(l) { return /pulm[oó]n\s+verde/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
+  function colorDe(l) { return esPulmonVerde(l) ? cssVar("--st-pulmon") : cssVar(estadoInfo(l.estado).css); }
   function estilo(l) {
     var sel = state.selected === l.id;
     var visible = pasaFiltro(l);
@@ -306,7 +308,8 @@
     }).join("");
     $("leyenda").innerHTML = ESTADOS.filter(function (e) { return cont[e.key]; }).map(function (e) {
       return '<span><i class="dot" style="background:var(' + e.css + ')"></i>' + e.label + "</span>";
-    }).join("");
+    }).join("")
+    if (state.lotes.some(esPulmonVerde)) $("leyenda").innerHTML += '<span><i class="dot" style="background:var(--st-pulmon)"></i>Pulmón Verde</span>';
   }
   var ORDEN = {};
   ESTADOS.forEach(function (e, i) { ORDEN[e.key] = i; });
