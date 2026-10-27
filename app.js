@@ -173,7 +173,14 @@
   // ---------- mapa ----------
   // Los pulmones verdes tienen color propio (aunque su estado sea "no disponible").
   function esPulmonVerde(l) { return /pulm[oó]n\s+verde/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
-  function colorDe(l) { return esPulmonVerde(l) ? cssVar("--st-pulmon") : cssVar(estadoInfo(l.estado).css); }
+  function esFotovoltaico(l) { return /fotovoltaic/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
+  function esCalle(l) { return /^calle$/i.test(l.tipo || ""); }
+  function colorDe(l) {
+    if (esPulmonVerde(l)) return cssVar("--st-pulmon");
+    if (esFotovoltaico(l)) return cssVar("--st-solar");
+    if (esCalle(l)) return cssVar("--st-calle");
+    return cssVar(estadoInfo(l.estado).css);
+  }
   function estilo(l) {
     var sel = state.selected === l.id;
     var visible = pasaFiltro(l);
@@ -237,6 +244,7 @@
       // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
       return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
     }
+    if (esCalle(l) || esFotovoltaico(l)) return esc(l.razon_social || "");
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
     // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
     if (l.razon_social && l.estado !== "usurpado") return esc(l.razon_social);
@@ -275,6 +283,7 @@
     var e = estadoInfo(l.estado).label;
     if (l.razon_social && /actividad|construccion|inactivo/.test(l.estado)) return esc(l.razon_social);
     if (esPulmonVerde(l)) return esc("Pulmón Verde · " + fmtM2(sup(l)));
+    if (esCalle(l) || esFotovoltaico(l)) return esc(l.razon_social || "");
     return esc(e + " · " + fmtM2(sup(l)));
   }
   function repintar() {
@@ -312,6 +321,7 @@
       return '<span><i class="dot" style="background:var(' + e.css + ')"></i>' + e.label + "</span>";
     }).join("")
     if (state.lotes.some(esPulmonVerde)) $("leyenda").innerHTML += '<span><i class="dot" style="background:var(--st-pulmon)"></i>Pulmón Verde</span>';
+    if (state.lotes.some(esFotovoltaico)) $("leyenda").innerHTML += '<span><i class="dot" style="background:var(--st-solar)"></i>Parque Fotovoltaico</span>';
   }
   var ORDEN = {};
   ESTADOS.forEach(function (e, i) { ORDEN[e.key] = i; });
