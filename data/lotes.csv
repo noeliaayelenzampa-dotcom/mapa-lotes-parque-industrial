@@ -1,20 +1,20 @@
 ID lote,Manzana,Fracción,Lote,Tipo,Estado,Razón social (público),Rubro,Superficie oficial (m²),Superficie medida en plano (m²),Partida municipal,Valor / condiciones,Servicios,Frente (m),Observaciones (públicas)
 P202-01,202,,,,no disponible,,,,90.223,,,,,
-202-F1-L1,202,1,1,lote,libre privado,Privado,,"29.390,83",29.582,50793/6,,,,Ingreso por colectora
+202-F1-L1,202,1,1,lote,libre privado,Privado,,"29.390,83",29.582,,,,,Ingreso por colectora
 202-F1-L13,202,1,13,lote,en construccion,Gama Cemento SA,Construccion y materiales para la construccion,"3.975,92",3.850,,,,,
 202-F1-L11,202,1,11,lote,en actividad,Justo Domé y Asoc. SRL,Servicios/ Construcción y materiales para la construcción,"14.296,00",14.454,,,,,
-202-F1-L9,202,1,9,lote,libre privado,Privado,,"18.493,00",28.585,50806/6,,,,
+202-F1-L9,202,1,9,lote,libre privado,Privado,,"18.493,00",28.585,,,,,
 202-F1-L12,202,1,12,lote,disponible,Municipalidad de Paraná,,"22.201,62",21.439,40680/1,,,,
 202-F1-L2,202,1,2,lote,disponible,Municipalidad de Paraná,,"30.613,00",55.345,50929/3,,,,
-202-F1-L8,202,1,8,lote,libre privado,"Duche, Felipe - ALGABA MUEBLES - CALUVA",,"10.000,00",10.009,50807/9,,,,En este lote funciona ALGABA MUEBLES y CALUVA. Tmb cuenta con galpones de menor superficie en alquiler  
-202-F1-L7,202,1,7,lote,libre privado,"Duche, Felipe - PetFilm",Productos de caucho y plastico,"10.000,00",9.966,53451/7,,,,En este lote funciona PET FILM COOP. y cuenta con construcción de galpón en alquiler/venta. 
-202-F1-L6,202,1,6,lote,libre privado,Privado (ALTINGER),,"1.707,13",1.685,53652/8,,,,1700mts2. 450mts2 de galpón + 70mts2 de oficina con baño. 
+202-F1-L8,202,1,8,lote,libre privado,"Duche, Felipe - ALGABA MUEBLES - CALUVA",,"10.000,00",10.009,,,,,En este lote funciona ALGABA MUEBLES y CALUVA. Tmb cuenta con galpones de menor superficie en alquiler  
+202-F1-L7,202,1,7,lote,libre privado,"Duche, Felipe - PetFilm",Productos de caucho y plastico,"10.000,00",9.966,,,,,En este lote funciona PET FILM COOP. y cuenta con construcción de galpón en alquiler/venta. 
+202-F1-L6,202,1,6,lote,libre privado,Privado (ALTINGER),,"1.707,13",1.685,,,,,1700mts2. 450mts2 de galpón + 70mts2 de oficina con baño. 
 202-F1-L5,202,1,5,lote,en actividad,El Caserito SA,Alimentos,"799,89",,,,,,
 202-F1-L4,202,1,4,lote,en actividad,Masterplast,Productos de caucho y plastico,"2.116,66",1.881,,,,,
 202-F1-L3,202,1,3,lote,en actividad,Masterplast,Productos de caucho y plastico,"1.915,23",2.095,,,,,
 203-F2-L2,203,2,2,lote,en actividad,Redengas,Planta Redengas,"1.152,00",1.152,,,,,
 P203-02,203,,,lote,no disponible,Municipalidad de Paraná,,,19.315,,,,,
-203-F1-L1,203,1,1,lote,libre privado,Privado,,"19.999,68",19.970,53424/5,,,,"Dueño vende. Galpón de 15,50 x 40"
+203-F1-L1,203,1,1,lote,libre privado,Privado,,"19.999,68",19.970,,,,,"Dueño vende. Galpón de 15,50 x 40"
 203-F2-L12,203,2,12,lote,en actividad,Asoc. Ciclista ER,,"50.000,00",50.120,,,,,
 203-F1-L2,203,1,2,lote,en actividad,Bugliolo Muebles SRL,Muebles de madera,"7.440,00",7.505,,,,,
 203-F2-L1,203,2,1,lote,disponible,Municipalidad de Paraná,,"95.900,48",23.244,50757/0,,,,
@@ -48,7 +48,7 @@ P203-02,203,,,lote,no disponible,Municipalidad de Paraná,,,19.315,,,,,
 247-F1-L3,247,1,3,lote,disponible,Municipalidad de Paraná,,"58.005,61",1.272,53728/9,,,,
 247-F2-L12,247,2,12,lote,en construccion,Leo Film SA,Fab. Productos de limpieza,"15.290,89",15.510,,,,,
 247-F1-L12,247,1,12,lote,en actividad,"Muñoz, Gabriel Sebastian",Metalmecanicas,"4.500,00",4.502,,,,,
-247-F1-L4,247,1,4,lote,libre privado,Privado,,"4.720,00",4.724,55009/8,,,,"Dueño vende, lote cuenta con galpón cerrado de 400mts2,"
+247-F1-L4,247,1,4,lote,libre privado,Privado,,"4.720,00",4.724,,,,,"Dueño vende, lote cuenta con galpón cerrado de 400mts2,"
 247-F2-L4,247,2,4,lote,en actividad,Cumar SRL,Metalmecanicas,"10.641,09",10.248,,,,,
 247-F1-L11,247,1,11,lote,en actividad,Vitrex SA,Construccion y materiales para la construccion,"6.718,45",6.693,,,,,
 247-F2-L5,247,2,5,lote,en construccion,Mec-parts SRL,Metalmecanicas,"7.397,56",7.143,,,,,

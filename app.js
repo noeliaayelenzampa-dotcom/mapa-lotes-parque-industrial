@@ -234,7 +234,7 @@
   function rotulo(l) {
     if (!pasaFiltro(l)) return null;
     if (l.estado === "disponible" || l.estado === "libre privado") {
-      return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + (l.partida ? "<br>Pda. " + esc(l.partida) : "");
+      return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + (l.partida && l.estado === "disponible" ? "<br>Pda. " + esc(l.partida) : "");
     }
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
     // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
@@ -350,7 +350,7 @@
       ["Ubicación", esc(["Manzana " + (l.manzana || "s/d"), l.fraccion ? "Fracción " + l.fraccion : "", l.lote ? "Lote " + l.lote : ""].filter(Boolean).join(" · "))],
       l.razon_social ? [/actividad|construccion|inactivo/.test(l.estado) ? "Empresa" : "Nombre", esc(l.razon_social)] : null,
       l.rubro ? ["Rubro", esc(l.rubro)] : null,
-      l.partida && !gest && /disponible|libre privado/.test(l.estado) ? ["Partida", '<span class="mono">' + esc(l.partida) + "</span>"] : null,
+      l.partida && !gest && l.estado === "disponible" ? ["Partida", '<span class="mono">' + esc(l.partida) + "</span>"] : null,
       l.frente_m ? ["Frente", esc(l.frente_m) + " m"] : null,
       l.servicios ? ["Servicios", esc(l.servicios)] : null,
       l.precio ? ["Valor", esc(l.precio)] : null,
