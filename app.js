@@ -7,7 +7,7 @@
 
   // label: lo que ve cualquiera; interno: lo que se ve en modo gestión (si difiere).
   var ESTADOS = [
-    { key: "disponible", label: "Disponible (titular Municipalidad)", css: "--st-disponible" },
+    { key: "disponible", label: "Libre (titular Municipalidad)", css: "--st-disponible" },
     { key: "reservado", label: "Reservado", css: "--st-reservado" },
     { key: "libre privado", label: "Libre (titular privado)", css: "--st-libreprivado" },
     { key: "en construccion", label: "En construcción", css: "--st-obra" },
@@ -254,7 +254,7 @@
   function rotuloBase(l) {
     if (l.estado === "disponible" || l.estado === "libre privado") {
       // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
-      return '<b>' + (l.estado === "disponible" ? "Disponible" : "Libre") + "</b><br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
+      return "<b>Libre</b> (" + (l.estado === "disponible" ? "Municipalidad" : "privado") + ")<br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
     }
     if (esCalle(l) || esFotovoltaico(l)) return esc(l.razon_social || "");
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
