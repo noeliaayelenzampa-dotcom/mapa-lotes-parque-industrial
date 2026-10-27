@@ -7,7 +7,7 @@
 
   // label: lo que ve cualquiera; interno: lo que se ve en modo gestión (si difiere).
   var ESTADOS = [
-    { key: "disponible", label: "Disponible", css: "--st-disponible" },
+    { key: "disponible", label: "Disponible (titular Municipalidad)", css: "--st-disponible" },
     { key: "reservado", label: "Reservado", css: "--st-reservado" },
     { key: "libre privado", label: "Libre (titular privado)", css: "--st-libreprivado" },
     { key: "en construccion", label: "En construcción", css: "--st-obra" },
