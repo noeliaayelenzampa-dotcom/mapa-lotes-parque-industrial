@@ -7,9 +7,9 @@
 
   // label: lo que ve cualquiera; interno: lo que se ve en modo gestión (si difiere).
   var ESTADOS = [
-    { key: "disponible", label: "Libre (titular Municipalidad)", css: "--st-disponible" },
+    { key: "disponible", label: "Disponible (titular Municipalidad)", css: "--st-disponible" },
     { key: "reservado", label: "Reservado", css: "--st-reservado" },
-    { key: "libre privado", label: "Libre (titular privado)", css: "--st-libreprivado" },
+    { key: "libre privado", label: "Disponible (titular privado)", css: "--st-libreprivado" },
     { key: "en construccion", label: "En construcción", css: "--st-obra" },
     { key: "en actividad", label: "En actividad", css: "--st-actividad" },
     { key: "inactivo", label: "Sin actividad", css: "--st-inactivo" },
@@ -162,7 +162,10 @@
       var lotesGeo = filas.length ? g.lotes.filter(function (gl) { return porId[gl.id]; }) : g.lotes;
       state.lotes = lotesGeo.map(function (gl) {
         var l = Object.assign({ id: gl.id }, porId[gl.id] || {}, edits[gl.id] || {});
-        l.estado = (l.estado || "sin datos").toLowerCase();
+        l.estado = (l.estado || "sin datos").toLowerCase().trim();
+        // Valores de la planilla -> claves internas.
+        if (/^disponible\s*\(titular\s+municipalidad\)$/.test(l.estado)) l.estado = "disponible";
+        else if (/^disponible\s*\(titular\s+privado\)$/.test(l.estado)) l.estado = "libre privado";
         l.ll = gl.ll; l.c = gl.c; l.r = gl.r;
         return l;
       });
@@ -254,7 +257,7 @@
   function rotuloBase(l) {
     if (l.estado === "disponible" || l.estado === "libre privado") {
       // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
-      return "<b>Libre</b> (" + (l.estado === "disponible" ? "Municipalidad" : "privado") + ")<br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
+      return "<b>Disponible</b> (" + (l.estado === "disponible" ? "Municipalidad" : "privado") + ")<br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
     }
     if (esCalle(l) || esFotovoltaico(l)) return esc(l.razon_social || "");
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
