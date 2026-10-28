@@ -66,7 +66,12 @@ img { max-width: 100%; }
 /* Portada: plano a la izquierda y panel gris con el texto, como el carrusel de parana.gob.ar */
 .hero { padding-block: 24px 0; background: #fff; }
 .hero-in { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 0; align-items: stretch; }
-.hero-plano { margin: 0; order: 1; background: #ecebe8; padding: 18px; display: flex; flex-direction: column; justify-content: center; }
+.hero-foto { margin: 0; order: 1; min-height: 360px; background: #ecebe8; }
+.hero-foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lotes-top { margin-bottom: 18px; }
+.plano-lotes { margin: 0; background: #ecebe8; padding: 18px; border-radius: 6px; max-width: 560px; }
+.ubi-foto { margin: 22px 0 0; }
+.ubi-foto img { display: block; width: 100%; height: 240px; object-fit: cover; border-radius: 6px; }
 .hero-txt { order: 2; background: var(--panel); padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; }
 .hero .eyebrow { color: var(--accent-dark); }
 .hero h1 { font-size: clamp(26px, 2.8vw, 34px); line-height: 1.2; font-weight: 600; }
@@ -80,8 +85,8 @@ img { max-width: 100%; }
 #mini-plano .p { fill: var(--st-libreprivado); }
 #mini-plano .v { fill: var(--st-pulmon); }
 #mini-plano a:hover path { fill: #155f2c; }
-.hero-plano figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.hero-plano figcaption .dot:not(:first-child) { margin-left: 8px; }
+.plano-lotes figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+.plano-lotes figcaption .dot:not(:first-child) { margin-left: 8px; }
 
 .cifras { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0; padding-block: 26px 30px; border-bottom: 1px solid var(--line); }
 .cifras div { padding: 0 16px 0 0; }
@@ -202,7 +207,8 @@ img { max-width: 100%; }
 
 @media (max-width: 980px) {
   .hero-in, .ubi, .con { grid-template-columns: minmax(0, 1fr); }
-  .hero-txt { order: 0; padding: 28px 22px; }
+  .hero-txt { padding: 28px 22px; }
+  .hero-foto { min-height: 0; aspect-ratio: 16 / 9; }
   .hero { padding-top: 0; }
   .hero .wrap.hero-in { padding-inline: 0; }
   .ben { grid-template-columns: minmax(0, 1fr); }
