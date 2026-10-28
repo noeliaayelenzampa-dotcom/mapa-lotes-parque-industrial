@@ -120,7 +120,7 @@
     if (nDisp != null) cif.push({ valor: String(nDisp), texto: "lotes municipales disponibles" });
     $("cifras").innerHTML = cif.map(function (c) { return "<div><dt>" + esc(c.valor) + "</dt><dd>" + esc(c.texto) + "</dd></div>"; }).join("");
     var c = CFG.contacto || {};
-    $("con-area").textContent = (c.area || "Dirección del Parque Industrial") + ". Te asesoramos sobre lotes disponibles, beneficios y el trámite de radicación.";
+    $("con-area").textContent = "Municipalidad de Paraná. Te asesoramos sobre lotes disponibles, beneficios y el trámite de radicación.";
     // "0343 430-1050" -> +543434301050 ; "0343 15-405-8296" (celular) -> +5493434058296
     var tel = function (t) {
       var d = t.replace(/\D/g, "").replace(/^0/, ""), cel = /^343(15)/.test(d);
