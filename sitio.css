@@ -71,7 +71,7 @@ img { max-width: 100%; }
 .lotes-top { margin-bottom: 18px; }
 .plano-lotes { margin: 0; background: #ecebe8; padding: 18px; border-radius: 6px; max-width: 560px; }
 .ubi-foto { margin: 22px 0 0; }
-.ubi-foto img { display: block; width: 100%; height: 240px; object-fit: cover; border-radius: 6px; }
+.ubi-foto img { display: block; width: 100%; height: 280px; object-fit: cover; border-radius: 6px; }
 .hero-txt { order: 2; background: var(--panel); padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; }
 .hero .eyebrow { color: var(--accent-dark); }
 .hero h1 { font-size: clamp(26px, 2.8vw, 34px); line-height: 1.2; font-weight: 600; }
@@ -111,13 +111,14 @@ img { max-width: 100%; }
 .fotos figure { margin: 0; flex: 1 1 280px; max-width: 460px; }
 .fotos img { display: block; width: 100%; height: 240px; object-fit: cover; border-radius: 6px; background: var(--line); }
 .fotos figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
-.fotos-emp { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); margin-bottom: 22px; }
+.fotos-emp { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); margin-bottom: 22px; }
 .fotos-emp figure { max-width: none; }
 .fotos-emp img { height: 260px; }
 @media (max-width: 640px) {
   .fotos img { height: 200px; }
   .fotos-emp { grid-template-columns: minmax(0, 1fr); }
   .fotos-emp img { height: 180px; }
+  .fotos-emp figure:nth-child(3) { display: none; }
 }
 
 /* Lotes */
