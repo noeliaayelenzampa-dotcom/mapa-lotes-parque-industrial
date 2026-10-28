@@ -5,7 +5,7 @@
   --ink: #1b2622;
   --muted: #5d6a64;
   --line: #d9ddd7;
-  --accent: #0d6b5c;
+  --accent: #4c9c2e;
   --accent-ink: #ffffff;
   --map-bg: #eef0ec;
 
@@ -26,24 +26,11 @@
   --st-solar: #3d5a99;
   --st-calle: #c7cbc6;
 
-  --f-display: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-display: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #121816; --surface: #1a2220; --ink: #e6ebe8; --muted: #9aa7a1; --line: #2c3633;
-    --accent: #3fb59d; --accent-ink: #0d1412; --map-bg: #1f2725;
-    --st-actividad: #8597ab; --st-privado: #98a3ae; --st-sindatos: #56605c;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #121816; --surface: #1a2220; --ink: #e6ebe8; --muted: #9aa7a1; --line: #2c3633;
-  --accent: #3fb59d; --accent-ink: #0d1412; --map-bg: #1f2725;
-  --st-actividad: #8597ab; --st-privado: #98a3ae; --st-sindatos: #56605c;
-  color-scheme: dark;
-}
+:root { color-scheme: light; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -53,7 +40,7 @@ body {
   color: var(--ink);
   font: 15px/1.45 var(--f-body);
 }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
 .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 button, input, select { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -212,3 +199,9 @@ button, input, select { font: inherit; color: inherit; }
 .emp-ficha b { display: block; font-size: 14px; }
 .emp-ficha span { font-size: 12px; color: var(--muted); }
 a.emp-ficha:hover { border-color: var(--accent); }
+
+.logo-muni { flex: none; display: block; }
+.logo-muni img { width: 96px; height: 48px; display: block; }
+.top { justify-content: flex-start; }
+.top .vista { margin-left: auto; }
+@media (max-width: 520px) { .logo-muni img { width: 72px; height: 36px; } }
