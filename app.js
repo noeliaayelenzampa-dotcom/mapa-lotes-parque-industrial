@@ -192,10 +192,12 @@
   }
   function esFotovoltaico(l) { return /fotovoltaic/i.test((l.razon_social || "") + " " + (l.tipo || "")); }
   function esCalle(l) { return /^calle$/i.test(l.tipo || ""); }
+  // Terrenos dibujados en el plano que no son parte del parque: gris, sin estado.
+  function esFuera(l) { return /fuera del parque/i.test(l.tipo || ""); }
   function colorDe(l) {
     if (esPulmonVerde(l)) return cssVar("--st-pulmon");
     if (esFotovoltaico(l)) return cssVar("--st-solar");
-    if (esCalle(l)) return cssVar("--st-calle");
+    if (esCalle(l) || esFuera(l)) return cssVar("--st-calle");
     return cssVar(estadoInfo(l.estado).css);
   }
   function estilo(l) {
@@ -267,7 +269,7 @@
       // Condición, superficie y código del lote (para consultar por él). La partida no se publica.
       return "<b>Disponible</b> (" + (l.estado === "disponible" ? "Municipalidad" : "privado") + ")<br>" + fmtM2(sup(l)) + "<br>" + esc(l.id);
     }
-    if (esCalle(l) || esFotovoltaico(l)) return esc(l.razon_social || "");
+    if (esCalle(l) || esFotovoltaico(l) || esFuera(l)) return esc(l.razon_social || "");
     if (l.estado === "no disponible" && l.razon_social) return "<b>No disponible</b><br>" + esc(l.razon_social);
     // Cualquier lote con nombre cargado lo muestra (empresas, pulmón verde, etc.), salvo usurpados.
     if (l.razon_social && l.estado !== "usurpado") return esc(l.razon_social);
@@ -365,6 +367,7 @@
     $("lista").innerHTML = mostrar.map(function (l) {
       var e = estadoInfo(l.estado);
       if (esPulmonVerde(l)) e = { key: e.key, label: "No disponible", css: "--st-pulmon" };
+      if (esFuera(l)) e = { key: e.key, label: "Fuera del Parque Industrial", css: "--st-calle" };
       var sub = [e.label, l.razon_social || l.rubro || null, state.gestion && l.partida ? "Pda. " + l.partida : null].filter(Boolean).join(" · ");
       return '<li><button type="button" class="fila" data-id="' + esc(l.id) + '">' +
         '<span class="dot" style="background:var(' + e.css + ')"></span>' +
@@ -383,6 +386,7 @@
     if (!l) { f.hidden = true; f.innerHTML = ""; return; }
     var e = estadoInfo(l.estado);
     if (esPulmonVerde(l)) e = { key: e.key, label: "Pulmón Verde (no disponible)", css: "--st-pulmon" };
+    if (esFuera(l)) e = { key: e.key, label: "Fuera del Parque Industrial", css: "--st-calle" };
     var gest = state.gestion;
     var filas = [
       ["Superficie", (supEsOficial(l) ? fmtM2(num(l.superficie_m2)) + ' <span class="mono">(' + num(l.superficie_m2).toLocaleString("es-AR", { minimumFractionDigits: 2 }) + " m²)</span>" : "≈ " + fmtM2(sup(l)) + ' <span class="nota">medida sobre plano</span>')],
