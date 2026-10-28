@@ -34,7 +34,7 @@
     return Math.round(n).toLocaleString("es-AR") + " m²";
   }
   function traer(url, tipo) {
-    return fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return tipo === "json" ? r.json() : r.text(); });
+    return fetch(url, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(url); return tipo === "json" ? r.json() : r.text(); });
   }
 
   // ---------- lotes ----------

@@ -146,18 +146,18 @@
 
   // ---------- datos ----------
   function cargar() {
-    var geo = fetch("data/geometria.json").then(function (r) { return r.json(); });
-    fetch("data/calles.json").then(function (r) { return r.json(); }).then(function (c) { state.calles = c; if (map) pintarEtiquetas(); }).catch(function () {});
+    var geo = fetch("data/geometria.json", { cache: "no-cache" }).then(function (r) { return r.json(); });
+    fetch("data/calles.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (c) { state.calles = c; if (map) pintarEtiquetas(); }).catch(function () {});
     // Empresas (logo y web) para mostrar en la ficha del lote. Si falta el archivo, el mapa funciona igual.
-    fetch("data/empresas.csv").then(function (r) { return r.ok ? r.text() : ""; }).then(function (t) {
+    fetch("data/empresas.csv", { cache: "no-cache" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (t) {
       state.empresaDeLote = {};
       if (t) parseCSV(t).forEach(function (e) {
         String(e.Lotes || "").split(",").forEach(function (id) { id = id.trim(); if (id) state.empresaDeLote[id] = e; });
       });
       if (state.selected) pintarFicha();
     }).catch(function () {});
-    fetch("data/manzanas.json").then(function (r) { return r.json(); }).then(function (m) { state.manzanas = m; if (map) pintarEtiquetas(); }).catch(function () {});
-    var datos = fetch(CFG.fuenteDatos || "data/lotes.csv").then(function (r) {
+    fetch("data/manzanas.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (m) { state.manzanas = m; if (map) pintarEtiquetas(); }).catch(function () {});
+    var datos = fetch(CFG.fuenteDatos || "data/lotes.csv", { cache: "no-cache" }).then(function (r) {
       if (!r.ok) throw new Error("No se pudo leer la planilla de datos (" + r.status + ").");
       return r.text();
     }).then(parseCSV);
