@@ -16,6 +16,9 @@ window.PARQUE_CONFIG = {
     whatsapp: "5493434058296"
   },
 
+  // Servicios generales del parque (se muestran en la ficha de cada lote).
+  serviciosParque: "Agua potable, energía eléctrica, gas natural, cloacas, internet por fibra óptica, alumbrado LED, videovigilancia 24/7 y red vial apta para tránsito pesado.",
+
   // Precio de referencia de los lotes municipales, en pesos por m² (varía según ubicación).
   precioM2: { min: 31000, max: 43000 },
 
