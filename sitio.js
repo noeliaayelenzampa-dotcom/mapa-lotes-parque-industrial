@@ -70,8 +70,9 @@
     disp.sort(function (a, b) { return (tipoLote(a) === "d" ? 0 : 1) - (tipoLote(b) === "d" ? 0 : 1) || sup(b).v - sup(a).v; });
     var mun = disp.filter(function (l) { return tipoLote(l) === "d"; }), priv = disp.length - mun.length;
     var total = mun.reduce(function (s, l) { return s + sup(l).v; }, 0);
+    var p = CFG.precioM2, txtPrecio = p ? " Precio de referencia de los lotes municipales: $" + p.min.toLocaleString("es-AR") + " a $" + p.max.toLocaleString("es-AR") + " por m², según ubicación." : "";
     $("lotes-resumen").textContent = mun.length + " lotes municipales disponibles (" + fmtM2(total) + " en total)" +
-      (priv ? " y " + priv + " lotes de titulares privados disponibles o en oferta." : ".") + " Tocá un lote para verlo en el mapa.";
+      (priv ? " y " + priv + " lotes de titulares privados disponibles o en oferta." : ".") + txtPrecio + " Tocá un lote para verlo en el mapa.";
     $("lotes-grid").innerHTML = disp.map(function (l) {
       var s = sup(l), t = tipoLote(l), of = oferta(l), obs = (l["Observaciones (públicas)"] || "").replace(/^(vende|alquila)\.?\s*/i, "");
       return '<a class="lote" style="--c:var(' + (t === "d" ? "--st-disponible" : "--st-libreprivado") + ')" href="mapa.html#lote-' + encodeURIComponent(l["ID lote"]) + '">' +
@@ -131,6 +132,7 @@
       c.direccion ? "<li><span>Oficinas</span><b>" + esc(c.direccion) + "</b></li>" : "",
       c.telefono ? "<li><span>Teléfono</span>" + tel(c.telefono) + "</li>" : "",
       c.telefono2 ? "<li><span>Celular</span>" + tel(c.telefono2) + "</li>" : "",
+      c.whatsapp ? '<li><span>WhatsApp</span><a target="_blank" rel="noopener" href="https://wa.me/' + esc(c.whatsapp) + "?text=" + encodeURIComponent("Hola, quiero hacer una consulta sobre el Parque Industrial.") + '">Escribinos por WhatsApp</a></li>' : "",
       c.email ? '<li><span>Correo</span><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + "</a></li>" : ""
     ].join("");
   }

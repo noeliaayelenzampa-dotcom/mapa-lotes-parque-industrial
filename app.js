@@ -377,6 +377,15 @@
   }
 
   // ---------- ficha ----------
+  // Lotes municipales disponibles: rango de precio por m² y valor estimado del lote.
+  function precioRef(l) {
+    var p = CFG.precioM2;
+    if (!p || l.estado !== "disponible") return "";
+    var s = sup(l), fmt = function (n) { return "$" + Math.round(n).toLocaleString("es-AR"); };
+    var mill = function (n) { return "$" + (n / 1e6).toLocaleString("es-AR", { maximumFractionDigits: 0 }) + " millones"; };
+    return fmt(p.min) + " a " + fmt(p.max) + " por m², según ubicación" +
+      (s ? '<br><span class="nota">Estimado para este lote: ' + mill(s * p.min) + " a " + mill(s * p.max) + ". Financiación municipal mediante convenio de pago. Valor final a confirmar con la Dirección.</span>" : "");
+  }
   function linkLote(id) {
     var base = CFG.urlPublica || (location.origin + location.pathname);
     return base.replace(/#.*$/, "") + "#lote-" + id;
@@ -397,6 +406,7 @@
       l.frente_m ? ["Frente", esc(l.frente_m) + " m"] : null,
       l.servicios ? ["Servicios", esc(l.servicios)] : null,
       l.precio ? ["Valor", esc(l.precio)] : null,
+      precioRef(l) ? ["Precio de referencia", precioRef(l)] : null,
       oferta(l) ? ["Oferta privada", "<b>" + esc(oferta(l)) + '</b><br><span class="nota">Oferta informada por el titular. Consultas a través de la Dirección del Parque Industrial.</span>'] : null,
       l.observaciones ? ["Observaciones", esc(l.observaciones)] : null,
       gest ? ["Partida munic.", l.partida ? '<span class="mono">' + esc(l.partida) + "</span>" : "—"] : null,
@@ -428,7 +438,8 @@
       empHTML +
       '<dl class="datos">' + filas.map(function (r) { return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") + "</dl>" +
       '<div class="acciones">' +
-      '<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Compartir por WhatsApp</a>' +
+      (c.whatsapp ? '<a class="btn" target="_blank" rel="noopener" href="https://wa.me/' + esc(c.whatsapp) + "?text=" + encodeURIComponent("Hola, quiero consultar por el lote " + l.id + " (" + fmtM2(sup(l)) + ") del Parque Industrial. " + linkLote(l.id)) + '">Consultar por este lote</a>' : "") +
+      '<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">Compartir</a>' +
       '<button type="button" class="btn ghost" id="ficha-copiar">Copiar link</button></div>' +
       '<p class="toast" id="ficha-toast" role="status"></p>' +
       (contacto ? '<p class="contacto">Consultas: ' + contacto + "</p>" : "");

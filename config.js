@@ -11,8 +11,13 @@ window.PARQUE_CONFIG = {
     direccion: "Salellas y Hernandarias, Paraná",
     email: "parqueindustrialparana@gmail.com",
     telefono: "0343 430-1050",
-    telefono2: "0343 15-405-8296"
+    telefono2: "0343 15-405-8296",
+    // WhatsApp para consultas (formato internacional, solo números).
+    whatsapp: "5493434058296"
   },
+
+  // Precio de referencia de los lotes municipales, en pesos por m² (varía según ubicación).
+  precioM2: { min: 31000, max: 43000 },
 
   // Cifras de la página de inicio (fuente: informe de datos del parque, octubre 2026).
   cifras: [
