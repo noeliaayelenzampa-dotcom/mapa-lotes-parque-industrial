@@ -383,8 +383,13 @@
     if (!p || l.estado !== "disponible") return "";
     var s = sup(l), fmt = function (n) { return "$" + Math.round(n).toLocaleString("es-AR"); };
     var mill = function (n) { return "$" + (n / 1e6).toLocaleString("es-AR", { maximumFractionDigits: 0 }) + " millones"; };
+    var cola = ". Financiación municipal mediante convenio de pago. Valor final a confirmar con la Dirección.</span>";
+    var z = (CFG.preciosZona || {})[String(l.manzana || "").trim()];
+    if (z) return "<b>" + fmt(z.m2) + " por m²</b> (zona manzana " + esc(l.manzana) + ")" +
+      (z.nota ? '<br><span class="nota">' + esc(z.nota) + "</span>" : "") +
+      (s ? '<br><span class="nota">Estimado para este lote: ' + mill(s * z.m2) + cola : "");
     return fmt(p.min) + " a " + fmt(p.max) + " por m², según ubicación" +
-      (s ? '<br><span class="nota">Estimado para este lote: ' + mill(s * p.min) + " a " + mill(s * p.max) + ". Financiación municipal mediante convenio de pago. Valor final a confirmar con la Dirección.</span>" : "");
+      (s ? '<br><span class="nota">Estimado para este lote: ' + mill(s * p.min) + " a " + mill(s * p.max) + cola : "");
   }
   function linkLote(id) {
     var base = CFG.urlPublica || (location.origin + location.pathname);

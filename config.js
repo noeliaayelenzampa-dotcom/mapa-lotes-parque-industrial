@@ -20,7 +20,15 @@ window.PARQUE_CONFIG = {
   serviciosParque: "Agua potable, energía eléctrica, gas natural, cloacas, internet por fibra óptica, alumbrado LED, videovigilancia 24/7 y red vial apta para tránsito pesado.",
 
   // Precio de referencia de los lotes municipales, en pesos por m² (varía según ubicación).
-  precioM2: { min: 31000, max: 43000 },
+  precioM2: { min: 31095, max: 43467 },
+  // Valor del m² por zona (anexo de precios). "nota" aclara el valor distinto según la calle de frente.
+  preciosZona: {
+    "202": { m2: 40089 }, "203": { m2: 40089 }, "247": { m2: 40089 },
+    "248": { m2: 40089, nota: "$43.467 por m² con frente a calle Salellas" },
+    "266": { m2: 33142, nota: "$31.095 por m² con frente a calle Juan B. Mihura" },
+    "267": { m2: 33142, nota: "$31.095 por m² con frente a calle Juan B. Mihura" },
+    "268": { m2: 31095 }, "292": { m2: 31095 }, "293": { m2: 31095 }
+  },
 
   // Cifras de la página de inicio (fuente: informe de datos del parque, octubre 2026).
   cifras: [
