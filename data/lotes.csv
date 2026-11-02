@@ -4,7 +4,7 @@ ID lote,Manzana,Fracción,Lote,Tipo,Estado,Razón social (público),Rubro,Superf
 202-F1-L11,202,1,11,lote,en actividad,Justo Domé y Asoc. SRL,Servicios/ Construcción y materiales para la construcción,"14.296,00",14.454,,,,,
 202-F1-L9,202,1,9,lote,disponible (titular privado),PRIVADO,,"18.493,00",18.535,,,,,
 202-F1-L12,202,1,12,lote,disponible (titular Municipalidad),Municipalidad de Paraná,,"22.201,62",21.439,,,,,
-202-F1-L2,202,1,2,lote,disponible (titular Municipalidad),Municipalidad de Paraná,,"30.613,00",55.345,,,,,
+202-F1-L2,202,1,2,lote,disponible (titular Municipalidad),Municipalidad de Paraná,,"55.345,00",55.345,,,,,
 202-F1-L8,202,1,8,lote,privado,PRIVADO - ALGABA MUEBLES - CALUVA,,"10.000,00",10.009,,,,,VENDE. En este lote funcionan ALGABA MUEBLES y CALUVA. También cuenta con galpones de menor superficie.
 202-F1-L7,202,1,7,lote,privado,PRIVADO - PetFilm,Productos de caucho y plastico,"10.000,00",9.966,,,,,VENDE. En este lote funciona PET FILM COOP. y cuenta con construcción de galpón.
 202-F1-L6,202,1,6,lote,disponible (titular privado),PRIVADO (ALTINGER),,"1.707,13",1.685,,,,,1700mts2. 450mts2 de galpón + 70mts2 de oficina con baño.
@@ -38,7 +38,7 @@ P203-02,203,,,lote,no disponible,Municipalidad de Paraná,,,19.315,,,,,
 247-F2-L1,247,2,1,lote,inactivo,Aberturas Valentinuz SA,Construccion y materiales para la construccion,"10.000,00",10.007,,,,,
 247-F1-L16,247,1,16,lote,en actividad,QUANTA RECICLAJE,Productos de caucho y plastico,"8.747,54",8.791,,,,,
 247-F2-L13,247,2,13,lote,en actividad,Santini Argentina SRL,Metalmecanicas,"7.230,19",7.314,,,,,
-247-F1-L2,247,1,2,lote,disponible (titular Municipalidad),Municipalidad de Paraná,,"44.589,61",31.035,,,,,Superficie no utilizable por arroyo
+247-F1-L2,247,1,2,lote,disponible (titular Municipalidad),Municipalidad de Paraná,,"31.035,00",31.035,,,,,Superficie no utilizable por arroyo
 247-F1-L15,247,1,15,lote,en actividad,"Carmagnac, Jorge y otros",Madera y muebles,"7.441,99",7.383,,,,,
 247-F2-L2,247,2,2,lote,inactivo,Aberturas Valentinuz SA,Construccion y materiales para la construccion,"27.780,19",29.935,,,,,
 247-F1-L14,247,1,14,lote,en actividad,Alpina SA,fab de escaleras,"10.762,62",10.773,,,,,
