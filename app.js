@@ -360,7 +360,7 @@
       return (ORDEN[a.estado] - ORDEN[b.estado]) || a.id.localeCompare(b.id, "es", { numeric: true });
     });
     $("lista-n").textContent = vis.length + " de " + state.lotes.length;
-    $("lista-titulo").textContent = state.filtroEstado ? estadoInfo(state.filtroEstado).label : "Todos los lotes";
+    $("lista-titulo").textContent = state.filtroEstado === "oferta" ? "Oferta privada (venta / alquiler)" : (state.filtroEstado ? estadoInfo(state.filtroEstado).label : "Todos los lotes");
     if (!vis.length) { $("lista").innerHTML = '<li class="vacio">Ningún lote coincide con los filtros.</li>'; return; }
     var LIM = 25, extra = vis.length - LIM;
     var mostrar = state.verTodos ? vis : vis.slice(0, LIM);
@@ -417,7 +417,9 @@
       empHTML = url ? '<a class="emp-ficha" href="' + esc(url) + '" target="_blank" rel="noopener">' + dentro + "</a>" : '<div class="emp-ficha">' + dentro + "</div>";
     }
     var c = CFG.contacto || {};
-    var contacto = [c.area, c.email, c.telefono].filter(Boolean).map(esc).join(" · ");
+    var contacto = [c.area ? esc(c.area) : "",
+      c.email ? '<a href="mailto:' + esc(c.email) + "?subject=" + encodeURIComponent("Consulta por el lote " + l.id) + '">' + esc(c.email) + "</a>" : "",
+      c.telefono ? '<a href="tel:+54' + c.telefono.replace(/\D/g, "").replace(/^0/, "") + '">' + esc(c.telefono) + "</a>" : ""].filter(Boolean).join(" · ");
     var msg = "Lote " + l.id + " (" + estadoInfo(l.estado).label.toLowerCase() + ") del " + (CFG.nombre || "Parque Industrial") + " (" + fmtM2(sup(l)) + "): " + linkLote(l.id);
     var html =
       '<div class="ficha-top"><h2>Lote ' + esc(l.id) + "<small>" + esc(l.tipo && l.tipo !== "lote" ? l.tipo : "Parque Industrial") + "</small></h2>" +
