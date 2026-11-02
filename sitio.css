@@ -134,6 +134,8 @@ img { max-width: 100%; }
 
 /* Beneficios */
 .ben { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
+.ben-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ben-2 .reglas li { grid-template-columns: 64px minmax(0, 1fr); }
 .big-list { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
 .big-list li { display: flex; flex-direction: column; gap: 2px; }
 .big-list b { font: 700 26px/1.1 var(--f-display); color: var(--accent); font-variant-numeric: tabular-nums; }
@@ -197,7 +199,7 @@ img { max-width: 100%; }
 .reglas li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
 .reglas b { font: 700 18px/1.2 var(--f-display); color: var(--accent); }
 .reglas span { font-size: 14px; }
-.descargas ul { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.descargas ul { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .descargas a { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 14px 48px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%234c9c2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E") 14px center no-repeat; border: 1px solid var(--line); border-radius: 6px; text-decoration: none; color: var(--ink); }
 .descargas a:hover { border-color: var(--accent); }
 .descargas b { font-size: 15px; }
