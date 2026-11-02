@@ -134,8 +134,8 @@ img { max-width: 100%; }
 
 /* Beneficios */
 .ben { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
-.ben-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.ben-2 .reglas li { grid-template-columns: 64px minmax(0, 1fr); }
+.ben-1 { grid-template-columns: minmax(0, 1fr); }
+.ben-1 .reglas li { grid-template-columns: 64px minmax(0, 1fr); }
 .big-list { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
 .big-list li { display: flex; flex-direction: column; gap: 2px; }
 .big-list b { font: 700 26px/1.1 var(--f-display); color: var(--accent); font-variant-numeric: tabular-nums; }
