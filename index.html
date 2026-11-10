@@ -11,7 +11,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="sitio.css?v=202611021412">
+<link rel="stylesheet" href="sitio.css?v=202611101340">
 </head>
 <body>
 <a class="saltar" href="#lotes">Ir a lotes disponibles</a>
@@ -30,6 +30,7 @@
       <a href="#radicarse">Cómo radicarse</a>
       <a href="#contacto">Contacto</a>
     </nav>
+    <a class="idioma" href="en.html" lang="en" hreflang="en">English</a>
     <a class="btn btn-sm" href="mapa.html">Mapa de lotes</a>
   </div>
 </header>
@@ -99,11 +100,12 @@
         </article>
         <article class="card">
           <h3>Provinciales</h3>
-          <p class="card-sub">Promoción industrial de Entre Ríos</p>
+          <p class="card-sub">Régimen de Promoción Industrial de Entre Ríos · Ley N° 11.071</p>
           <ul class="big-list">
             <li><b>100%</b><span>de exención durante 15 años en Ingresos Brutos, Inmobiliario, Sellos y Automotor</span></li>
-            <li><b>15% · 8% · 4%</b><span>de reintegro del consumo de energía, con 5% adicional si se usan energías renovables</span></li>
+            <li><b>15% · 8% · 4%</b><span>de reintegro del consumo de energía eléctrica según la tarifa contratada, con 5% adicional si se usan energías renovables</span></li>
           </ul>
+          <p class="nota">Los 15 años son 10 de la ley más 5 por radicarse en un parque industrial reconocido (arts. 11 y 15). En Ingresos Brutos no alcanza a las ventas a consumidor final. Se tramita ante el Gobierno de Entre Ríos, con un proyecto productivo.</p>
         </article>
         <article class="card">
           <h3>Precio y financiamiento</h3>
@@ -233,6 +235,7 @@
           <input id="emp-q" type="search" placeholder="Buscar empresa o actividad" autocomplete="off"></label>
       </div>
       <ul class="emp" id="emp-grid"></ul>
+      <p class="emp-pie"><button type="button" class="btn ghost" id="emp-mas" hidden>Ver todas las empresas</button></p>
     </div>
   </section>
 
@@ -294,7 +297,7 @@
           <li><a href="docs/ordenanza-8560-promocion-industrial.pdf" target="_blank" rel="noopener"><b>Ordenanza N° 8560</b><span>Régimen de Promoción Industrial · PDF</span></a></li>
         </ul>
       </div>
-      <p class="nota">Marco normativo: Ordenanza N° 8560 (Promoción Industrial), Decreto N° 1263/2013, Decreto N° 254/1978 y Ordenanza N° 10117 (Distrito EUPI). Resumen informativo: rige el texto de cada norma.</p>
+      <p class="nota">Marco normativo: Ordenanza N° 8560 (Promoción Industrial), Decreto N° 1263/2013, Decreto N° 254/1978, Ordenanza N° 10117 (Distrito EUPI) y Ley Provincial N° 11.071. Resumen informativo: rige el texto de cada norma.</p>
     </div>
   </section>
 
@@ -324,6 +327,8 @@
   </section>
 </main>
 
+<a class="wa-fijo" id="wa-fijo" target="_blank" rel="noopener" hidden>Consultar por WhatsApp</a>
+
 <footer class="pie">
   <div class="wrap">
     <p>Parque Industrial General Manuel Belgrano · Municipalidad de Paraná, Entre Ríos.</p>
@@ -331,7 +336,7 @@
   </div>
 </footer>
 
-<script src="config.js?v=202611021412"></script>
-<script src="sitio.js?v=202611021412"></script>
+<script src="config.js?v=202611101340"></script>
+<script src="sitio.js?v=202611101340"></script>
 </body>
 </html>

@@ -341,11 +341,11 @@
     state.lotes.forEach(function (l) { var k = clave(l.estado); cont[k] = (cont[k] || 0) + 1; });
     $("resumen").innerHTML = ESTADOS.filter(function (e) { return cont[e.key]; }).map(function (e) {
       return '<button type="button" class="chip" data-estado="' + e.key + '" aria-pressed="' + (state.filtroEstado === e.key) + '">' +
-        '<span class="dot" style="background:var(' + e.css + ')"></span>' + e.label + ' <span class="n">' + cont[e.key] + "</span></button>";
+        '<span class="dot" style="background:var(' + e.css + ')"></span>' + e.label + (state.gestion ? ' <span class="n">' + cont[e.key] + "</span>" : "") + "</button>";
     }).join("");
     var nOf = state.lotes.filter(function (l) { return oferta(l); }).length;
     if (nOf) $("resumen").innerHTML += '<button type="button" class="chip chip-oferta" data-estado="oferta" aria-pressed="' + (state.filtroEstado === "oferta") + '">' +
-      '<span class="dot dot-oferta"></span>Oferta privada <span class="n">' + nOf + "</span></button>";
+      '<span class="dot dot-oferta"></span>Oferta privada' + (state.gestion ? ' <span class="n">' + nOf + "</span>" : "") + "</button>";
     $("leyenda").innerHTML = ESTADOS.filter(function (e) { return cont[e.key]; }).map(function (e) {
       return '<span><i class="dot" style="background:var(' + e.css + ')"></i>' + e.label + "</span>";
     }).join("")
@@ -359,7 +359,7 @@
     var vis = state.lotes.filter(pasaFiltro).sort(function (a, b) {
       return (ORDEN[a.estado] - ORDEN[b.estado]) || a.id.localeCompare(b.id, "es", { numeric: true });
     });
-    $("lista-n").textContent = vis.length + " de " + state.lotes.length;
+    $("lista-n").textContent = state.gestion ? vis.length + " de " + state.lotes.length : "";
     $("lista-titulo").textContent = state.filtroEstado === "oferta" ? "Oferta privada (venta / alquiler)" : (state.filtroEstado ? estadoInfo(state.filtroEstado).label : "Todos los lotes");
     if (!vis.length) { $("lista").innerHTML = '<li class="vacio">Ningún lote coincide con los filtros.</li>'; return; }
     var LIM = 25, extra = vis.length - LIM;

@@ -4,6 +4,12 @@
   "use strict";
   var CFG = window.PARQUE_CONFIG || {};
   var $ = function (id) { return document.getElementById(id); };
+  // Idioma de la página: index.html en español, en.html en inglés.
+  var EN = (document.documentElement.lang || "es").slice(0, 2) === "en";
+  var LOC = EN ? "en-US" : "es-AR";
+  var TR = { sectores: {}, actividades: {}, observaciones: {} }; // traducciones de datos (data/en.json)
+  function t(es, en) { return EN ? en : es; }
+  function tr(grupo, clave, porDefecto) { return (EN && TR[grupo] && TR[grupo][clave]) || porDefecto; }
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function parseCSV(text) {
@@ -30,8 +36,8 @@
     return parseFloat(v) || 0;
   }
   function fmtM2(n) {
-    if (n >= 10000) return (n / 10000).toLocaleString("es-AR", { maximumFractionDigits: 2 }) + " ha";
-    return Math.round(n).toLocaleString("es-AR") + " m²";
+    if (n >= 10000) return (n / 10000).toLocaleString(LOC, { maximumFractionDigits: 2 }) + " ha";
+    return Math.round(n).toLocaleString(LOC) + " m²";
   }
   function traer(url, tipo) {
     return fetch(url, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(url); return tipo === "json" ? r.json() : r.text(); });
@@ -65,91 +71,116 @@
     svg.innerHTML = partes.map(function (p) { return p.html; }).join("");
   }
 
+  function linkWa(texto) {
+    var c = CFG.contacto || {};
+    return c.whatsapp ? "https://wa.me/" + esc(c.whatsapp) + "?text=" + encodeURIComponent(texto) : "";
+  }
   function pintarLotes(lotes) {
     var disp = lotes.filter(function (l) { var t = tipoLote(l); return t === "d" || t === "p"; });
     disp.sort(function (a, b) { return (tipoLote(a) === "d" ? 0 : 1) - (tipoLote(b) === "d" ? 0 : 1) || sup(b).v - sup(a).v; });
-    var mun = disp.filter(function (l) { return tipoLote(l) === "d"; }), priv = disp.length - mun.length;
-    var total = mun.reduce(function (s, l) { return s + sup(l).v; }, 0);
-    var p = CFG.precioM2, txtPrecio = p ? " Precio de referencia de los lotes municipales: $" + p.min.toLocaleString("es-AR") + " a $" + p.max.toLocaleString("es-AR") + " por m², según ubicación." : "";
-    $("lotes-resumen").textContent = mun.length + " lotes municipales disponibles (" + fmtM2(total) + " en total)" +
-      (priv ? " y " + priv + " lotes de titulares privados disponibles o en oferta." : ".") + txtPrecio + " Tocá un lote para verlo en el mapa.";
+    var p = CFG.precioM2;
+    var txtPrecio = p ? t(" Precio de referencia de los lotes municipales: $" + p.min.toLocaleString(LOC) + " a $" + p.max.toLocaleString(LOC) + " por m², según ubicación.",
+      " Reference price for municipal lots: ARS " + p.min.toLocaleString(LOC) + " to " + p.max.toLocaleString(LOC) + " per m², depending on location.") : "";
+    $("lotes-resumen").textContent = t("Lotes municipales y lotes de titulares privados, disponibles o en oferta.", "Municipal lots and privately owned lots, available or on offer.") +
+      txtPrecio + t(" Tocá un lote para verlo en el mapa o consultar por él.", " Select a lot to see it on the map or ask about it.");
     $("lotes-grid").innerHTML = disp.map(function (l) {
-      var s = sup(l), t = tipoLote(l), of = oferta(l), obs = (l["Observaciones (públicas)"] || "").replace(/^(vende|alquila)\.?\s*/i, "");
-      return '<a class="lote" style="--c:var(' + (t === "d" ? "--st-disponible" : "--st-libreprivado") + ')" href="mapa.html#lote-' + encodeURIComponent(l["ID lote"]) + '">' +
+      var s = sup(l), tp = tipoLote(l), of = oferta(l), obs = (l["Observaciones (públicas)"] || "").replace(/^(vende|alquila)\.?\s*/i, "");
+      var id = l["ID lote"], medida = (s.aprox ? "≈ " : "") + fmtM2(s.v);
+      var wa = linkWa(t("Hola, quiero consultar por el lote " + id + " (" + medida + ") del Parque Industrial.", "Hello, I would like to ask about lot " + id + " (" + medida + ") at Parque Industrial General Manuel Belgrano, Paraná."));
+      if (of && EN) of = of === "En alquiler" ? "For rent" : "For sale";
+      return '<div class="lote" style="--c:var(' + (tp === "d" ? "--st-disponible" : "--st-libreprivado") + ')">' +
         (of ? '<span class="badge">' + of + "</span>" : "") +
-        '<span class="sup">' + (s.aprox ? "≈ " : "") + fmtM2(s.v) + "</span>" +
-        '<span class="tit">' + (t === "d" ? "Disponible · titular Municipalidad" : (/^disponible|libre/i.test(l["Estado"]) ? "Disponible · titular privado" : "Titular privado")) + "</span>" +
-        '<span class="cod">' + esc(l["ID lote"]) + (l["Manzana"] ? " · Manzana " + esc(l["Manzana"]) : "") + "</span>" +
-        (obs ? '<span class="obs">' + esc(obs) + "</span>" : "") +
-        '<span class="ver">Ver en el mapa →</span></a>';
+        '<span class="sup">' + medida + "</span>" +
+        '<span class="tit">' + (tp === "d" ? t("Disponible · titular Municipalidad", "Available · owned by the Municipality") : (/^disponible|libre/i.test(l["Estado"]) ? t("Disponible · titular privado", "Available · privately owned") : t("Titular privado", "Privately owned"))) + "</span>" +
+        '<span class="cod">' + esc(id) + (l["Manzana"] ? " · " + t("Manzana ", "Block ") + esc(l["Manzana"]) : "") + "</span>" +
+        (obs ? '<span class="obs">' + esc(tr("observaciones", obs, obs)) + "</span>" : "") +
+        '<span class="lote-acc"><a class="ver" href="mapa.html#lote-' + encodeURIComponent(id) + '">' + t("Ver en el mapa", "See on the map") + " →</a>" +
+        (wa ? '<a class="consultar" target="_blank" rel="noopener" href="' + wa + '">' + t("Consultar", "Ask about it") + "</a>" : "") + "</span></div>";
     }).join("");
-    return mun.length;
   }
 
   // ---------- empresas ----------
-  var EMP = [], filtro = "", q = "";
+  var EMP = [], filtro = "", q = "", verTodas = false;
+  // Sin filtro ni búsqueda se muestran las primeras; el resto, con el botón "Ver todas".
+  function limiteEmp() { return window.matchMedia("(max-width: 640px)").matches ? 6 : 10; }
   function pintarEmpresas() {
     var vis = EMP.filter(function (e) {
       if (filtro && e.Sector !== filtro) return false;
       if (q && (e.Empresa + " " + e.Actividad + " " + e.Sector).toLowerCase().indexOf(q) < 0) return false;
       return true;
     });
+    var lim = limiteEmp(), recorta = !verTodas && !filtro && !q && vis.length > lim;
+    var total = vis.length;
+    if (recorta) vis = vis.slice(0, lim);
+    var mas = $("emp-mas");
+    if (mas) {
+      mas.hidden = !recorta;
+      mas.textContent = t("Ver las " + total + " empresas", "See all " + total + " companies");
+    }
     $("emp-grid").innerHTML = vis.length ? vis.map(function (e) {
       var url = e.Web ? (/^https?:/.test(e.Web) ? e.Web : "https://" + e.Web) : "";
       var ini = e.Empresa.replace(/\(.*?\)/g, "").split(/\s+/).filter(function (w) { return /^[A-ZÁÉÍÓÚÑ]/i.test(w) && !/^(sa|srl|s\.a\.?|s\.r\.l\.?|y|e|de|del)$/i.test(w); }).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
-      var logo = e.Logo ? '<img src="img/logos/' + esc(e.Logo) + '" alt="Logo de ' + esc(e.Empresa) + '" loading="lazy">' : '<span class="mono-l" aria-hidden="true">' + esc(ini) + "</span>";
+      var logo = e.Logo ? '<img src="img/logos/' + esc(e.Logo) + '" alt="' + t("Logo de ", "Logo of ") + esc(e.Empresa) + '" loading="lazy">' : '<span class="mono-l" aria-hidden="true">' + esc(ini) + "</span>";
       var lote = (e.Lotes || "").split(",")[0].trim();
-      return "<li>" + (url ? '<a class="logo" href="' + esc(url) + '" target="_blank" rel="noopener" title="Ir a la web de ' + esc(e.Empresa) + '">' + logo + "</a>" : '<div class="logo">' + logo + "</div>") +
-        '<div class="info"><span class="sector">' + esc(e.Sector) + "</span><b>" + esc(e.Empresa) + "</b>" +
-        (e.Actividad ? '<span class="act">' + esc(e.Actividad) + "</span>" : "") +
-        (/construcci/.test(e["Situación"] || "") ? '<span class="tag">En construcción</span>' : "") +
-        '<span class="acc">' + (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">Sitio web ↗</a>' : "") +
-        (lote ? '<a href="mapa.html#lote-' + encodeURIComponent(lote) + '">Ver en el mapa</a>' : "") + "</span></div></li>";
-    }).join("") : '<li class="emp-vacio">Ninguna empresa coincide con la búsqueda.</li>';
+      return "<li>" + (url ? '<a class="logo" href="' + esc(url) + '" target="_blank" rel="noopener" title="' + t("Ir a la web de ", "Visit the website of ") + esc(e.Empresa) + '">' + logo + "</a>" : '<div class="logo">' + logo + "</div>") +
+        '<div class="info"><span class="sector">' + esc(tr("sectores", e.Sector, e.Sector)) + "</span><b>" + esc(e.Empresa) + "</b>" +
+        (e.Actividad ? '<span class="act">' + esc(tr("actividades", e.Empresa, e.Actividad)) + "</span>" : "") +
+        (/construcci/.test(e["Situación"] || "") ? '<span class="tag">' + t("En construcción", "Under construction") + "</span>" : "") +
+        '<span class="acc">' + (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + t("Sitio web", "Website") + " ↗</a>" : "") +
+        (lote ? '<a href="mapa.html#lote-' + encodeURIComponent(lote) + '">' + t("Ver en el mapa", "See on the map") + "</a>" : "") + "</span></div></li>";
+    }).join("") : '<li class="emp-vacio">' + t("Ninguna empresa coincide con la búsqueda.", "No company matches your search.") + "</li>";
   }
   function pintarChips() {
     var cont = {};
     EMP.forEach(function (e) { cont[e.Sector] = (cont[e.Sector] || 0) + 1; });
     var sectores = Object.keys(cont).sort(function (a, b) { return cont[b] - cont[a]; });
-    $("emp-chips").innerHTML = '<button type="button" class="chip" data-s="" aria-pressed="' + !filtro + '">Todas<span class="n">' + EMP.length + "</span></button>" +
-      sectores.map(function (s) { return '<button type="button" class="chip" data-s="' + esc(s) + '" aria-pressed="' + (filtro === s) + '">' + esc(s) + '<span class="n">' + cont[s] + "</span></button>"; }).join("");
+    $("emp-chips").innerHTML = '<button type="button" class="chip" data-s="" aria-pressed="' + !filtro + '">' + t("Todas", "All") + '<span class="n">' + EMP.length + "</span></button>" +
+      sectores.map(function (s) { return '<button type="button" class="chip" data-s="' + esc(s) + '" aria-pressed="' + (filtro === s) + '">' + esc(tr("sectores", s, s)) + '<span class="n">' + cont[s] + "</span></button>"; }).join("");
   }
 
   // ---------- contacto y cifras ----------
-  function pintarFijos(nDisp) {
+  function pintarFijos() {
     var cif = (CFG.cifras || []).slice();
-    if (nDisp != null) cif.push({ valor: String(nDisp), texto: "lotes municipales disponibles" });
-    $("cifras").innerHTML = cif.map(function (c) { return "<div><dt>" + esc(c.valor) + "</dt><dd>" + esc(c.texto) + "</dd></div>"; }).join("");
+    $("cifras").innerHTML = cif.map(function (c) { return "<div><dt>" + esc(c.valor) + "</dt><dd>" + esc(EN && c.textoEn ? c.textoEn : c.texto) + "</dd></div>"; }).join("");
     var c = CFG.contacto || {};
-    $("con-area").textContent = "Municipalidad de Paraná. Te asesoramos sobre lotes disponibles, beneficios y el trámite de radicación.";
+    var saludo = t("Hola, quiero hacer una consulta sobre el Parque Industrial.", "Hello, I have a question about Parque Industrial General Manuel Belgrano, Paraná.");
+    var fijo = $("wa-fijo");
+    if (fijo && c.whatsapp) { fijo.href = linkWa(saludo); fijo.hidden = false; }
+    $("con-area").textContent = t("Municipalidad de Paraná. Te asesoramos sobre lotes disponibles, beneficios y el trámite de radicación.",
+      "Municipality of Paraná. We advise on available lots, incentives and the application process.");
     // "0343 430-1050" -> +543434301050 ; "0343 15-405-8296" (celular) -> +5493434058296
     var tel = function (t) {
       var d = t.replace(/\D/g, "").replace(/^0/, ""), cel = /^343(15)/.test(d);
       var n = cel ? "+549343" + d.slice(5) : "+54" + d;
-      return '<a href="tel:' + n + '">' + esc(t) + "</a>";
+      return '<a href="tel:' + n + '">' + esc(EN ? n.replace(/^\+549?(343)(\d{3})(\d{4})$/, "+54 $1 $2-$3") : t) + "</a>";
     };
     $("con-datos").innerHTML = [
-      c.direccion ? "<li><span>Oficinas</span><b>" + esc(c.direccion) + "</b></li>" : "",
-      c.telefono ? "<li><span>Teléfono</span>" + tel(c.telefono) + "</li>" : "",
-      c.telefono2 ? "<li><span>Celular</span>" + tel(c.telefono2) + "</li>" : "",
-      c.whatsapp ? '<li><span>WhatsApp</span><a target="_blank" rel="noopener" href="https://wa.me/' + esc(c.whatsapp) + "?text=" + encodeURIComponent("Hola, quiero hacer una consulta sobre el Parque Industrial.") + '">Escribinos por WhatsApp</a></li>' : "",
-      c.email ? '<li><span>Correo</span><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + "</a></li>" : ""
+      c.direccion ? "<li><span>" + t("Oficinas", "Offices") + "</span><b>" + esc(c.direccion) + (EN ? ", Entre Ríos, Argentina" : "") + "</b></li>" : "",
+      c.telefono ? "<li><span>" + t("Teléfono", "Phone") + "</span>" + tel(c.telefono) + "</li>" : "",
+      c.telefono2 ? "<li><span>" + t("Celular", "Mobile") + "</span>" + tel(c.telefono2) + "</li>" : "",
+      c.whatsapp ? '<li><span>WhatsApp</span><a target="_blank" rel="noopener" href="' + linkWa(saludo) + '">' + t("Escribinos por WhatsApp", "Message us on WhatsApp") + "</a></li>" : "",
+      c.email ? "<li><span>" + t("Correo", "Email") + '</span><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + "</a></li>" : ""
     ].join("");
   }
 
   function init() {
-    pintarFijos(null);
-    Promise.all([traer("data/lotes.csv"), traer("data/geometria.json", "json")]).then(function (r) {
-      var lotes = parseCSV(r[0]), porId = {};
-      lotes.forEach(function (l) { porId[l["ID lote"]] = l; });
-      pintarPlano(r[1], porId);
-      pintarFijos(pintarLotes(lotes));
-    }).catch(function () { $("lotes-resumen").textContent = "No se pudieron cargar los lotes. Probá abrir el mapa."; });
+    pintarFijos();
+    // En inglés se cargan primero las traducciones de sectores, actividades y observaciones.
+    var listo = EN ? traer("data/en.json", "json").then(function (d) { TR = d; }).catch(function () {}) : Promise.resolve();
+    listo.then(function () {
+      Promise.all([traer("data/lotes.csv"), traer("data/geometria.json", "json")]).then(function (r) {
+        var lotes = parseCSV(r[0]), porId = {};
+        lotes.forEach(function (l) { porId[l["ID lote"]] = l; });
+        pintarPlano(r[1], porId);
+        pintarLotes(lotes);
+      }).catch(function () { $("lotes-resumen").textContent = t("No se pudieron cargar los lotes. Probá abrir el mapa.", "The lots could not be loaded. Try opening the map."); });
 
-    traer("data/empresas.csv").then(function (t) {
-      EMP = parseCSV(t).sort(function (a, b) { return (b.Logo ? 1 : 0) - (a.Logo ? 1 : 0) || a.Empresa.localeCompare(b.Empresa, "es"); });
-      pintarChips(); pintarEmpresas();
-    }).catch(function () { $("emp-grid").innerHTML = '<li class="emp-vacio">No se pudo cargar el listado de empresas.</li>'; });
+      traer("data/empresas.csv").then(function (txt) {
+        EMP = parseCSV(txt).sort(function (a, b) { return (b.Logo ? 1 : 0) - (a.Logo ? 1 : 0) || a.Empresa.localeCompare(b.Empresa, "es"); });
+        pintarChips(); pintarEmpresas();
+      }).catch(function () { $("emp-grid").innerHTML = '<li class="emp-vacio">' + t("No se pudo cargar el listado de empresas.", "The company directory could not be loaded.") + "</li>"; });
+    });
+    if ($("emp-mas")) $("emp-mas").addEventListener("click", function () { verTodas = true; pintarEmpresas(); });
 
     $("emp-chips").addEventListener("click", function (e) {
       var b = e.target.closest(".chip"); if (!b) return;
