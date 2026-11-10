@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parque Industrial Paraná · Industrial Park</title>
+<meta name="description" content="Parque Industrial General Manuel Belgrano, Paraná, Entre Ríos, Argentina: available lots, incentives, services and companies.">
+<script>
+  // Links viejos del mapa (#lote-..., #gestion) siguen funcionando.
+  if (/^#(lote-|gestion)/.test(location.hash)) location.replace("mapa.html" + location.hash);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="sitio.css?v=202611101340">
+</head>
+<body>
+<a class="saltar" href="#lotes">Skip to available lots</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="marca" href="#inicio">
+      <img src="img/logo-parana-municipio.png" alt="Paraná Municipio">
+      <span class="marca-t">Parque Industrial<br>Gral. Manuel Belgrano</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#lotes">Lots</a>
+      <a href="#beneficios">Incentives</a>
+      <a href="#servicios">Services</a>
+      <a href="#empresas">Companies</a>
+      <a href="#radicarse">How to apply</a>
+      <a href="#contacto">Contact</a>
+    </nav>
+    <a class="idioma" href="index.html" lang="es" hreflang="es">Español</a>
+    <a class="btn btn-sm" href="mapa.html">Lot map</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap hero-in">
+      <div class="hero-txt">
+        <p class="eyebrow">Municipality of Paraná · Entre Ríos · Argentina</p>
+        <h1>Parque Industrial General Manuel Belgrano</h1>
+        <p class="lead">A municipal industrial park with serviced lots, tax incentives and established companies. On Antonio Salellas street, the continuation of National Route 12.</p>
+        <div class="ctas">
+          <a class="btn" href="#lotes">See available lots</a>
+          <a class="btn ghost" href="#radicarse">How to apply</a>
+        </div>
+      </div>
+      <figure class="hero-foto">
+        <img src="img/fotos/aerea-parque.jpg" alt="Aerial view of the industrial park with factory buildings and internal streets">
+      </figure>
+    </div>
+    <div class="wrap">
+      <dl class="cifras" id="cifras"></dl>
+    </div>
+  </section>
+
+  <section class="sec" id="lotes" aria-labelledby="t-lotes">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Lots</p>
+        <h2 id="t-lotes">Available lots</h2>
+        <p class="sec-lead" id="lotes-resumen">Loading lots…</p>
+      </div>
+      <div class="lotes-top">
+      <figure class="plano-lotes">
+        <a href="mapa.html" class="plano-link" aria-label="Open the interactive lot map">
+          <svg id="mini-plano" role="img" aria-label="Plan of the park with available lots highlighted"></svg>
+        </a>
+        <figcaption><span class="dot" style="background:var(--st-disponible)"></span>Available (Municipality)
+          <span class="dot" style="background:var(--st-libreprivado)"></span>Available (private)
+          <span class="dot" style="background:var(--st-pulmon)"></span>Green buffer</figcaption>
+      </figure>
+      </div>
+      <div class="lotes" id="lotes-grid"></div>
+      <div class="sec-pie">
+        <a class="btn" href="mapa.html">Open the interactive map</a>
+        <p class="nota">Areas marked ≈ were measured on the municipal cadastre plan. Data subject to verification. The interactive map is in Spanish.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="beneficios" aria-labelledby="t-ben">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Incentives</p>
+        <h2 id="t-ben">Incentives for companies</h2>
+        <p class="sec-lead">For companies setting up in the park for the first time and for those already here that expand.</p>
+      </div>
+      <div class="ben">
+        <article class="card">
+          <h3>Municipal</h3>
+          <p class="card-sub">Industrial Promotion Regime · Ordinance No. 8560</p>
+          <ul class="big-list">
+            <li><b>100%</b><span>exemption from municipal taxes and fees for the first 5 years from final approval of the plant</span></li>
+            <li><b>50%</b><span>exemption for the following 5 years</span></li>
+          </ul>
+          <p class="nota">Covers: general property fee (Tasa General Inmobiliaria), public works contribution (Tasa Solidaria para Obras Públicas), health, hygiene and safety inspection fee (Tasa por Inspección Sanitaria, Higiene, Profilaxis y Seguridad), community and tourism promotion fund, building permit fee (Derecho de Edificación) and administrative fees.</p>
+        </article>
+        <article class="card">
+          <h3>Provincial</h3>
+          <p class="card-sub">Entre Ríos Industrial Promotion Regime · Law No. 11,071</p>
+          <ul class="big-list">
+            <li><b>100%</b><span>exemption for 15 years from provincial turnover tax (Ingresos Brutos), property tax, stamp tax and vehicle tax</span></li>
+            <li><b>15% · 8% · 4%</b><span>rebate on electricity consumption depending on the contracted tariff, plus 5% when renewable energy is used</span></li>
+          </ul>
+          <p class="nota">The 15 years are 10 under the law plus 5 for locating in a recognised industrial park (sections 11 and 15). The turnover tax exemption does not cover sales to final consumers. Applications are filed with the Government of Entre Ríos, with a production project.</p>
+        </article>
+        <article class="card">
+          <h3>Price and financing</h3>
+          <p class="card-sub">Municipal lots · Argentine pesos (ARS)</p>
+          <ul class="big-list">
+            <li><b>$31,095 to $43,467</b><span>per m², depending on the area of the park</span></li>
+          </ul>
+          <ul class="zonas">
+            <li><span>Facing Salellas street</span><b>$43,467</b></li>
+            <li><span>Blocks 202, 203, 247 and 248</span><b>$40,089</b></li>
+            <li><span>Blocks 266 and 267</span><b>$33,142</b></li>
+            <li><span>Facing Mihura street and blocks 268, 292 and 293</span><b>$31,095</b></li>
+          </ul>
+          <p><b>Municipal financing:</b> the Municipality offers payment plans for the purchase of the lot.</p>
+          <p class="nota">These prices apply to municipal lots. Private lots for sale are priced by their owners.</p>
+        </article>
+      </div>
+      <div class="ben ben-1">
+        <article class="card">
+          <h3>If you are already in the park and expand</h3>
+          <p class="card-sub">Ordinance No. 8560 · sections 20 to 23</p>
+          <p>Up to <b>5 years of exemption</b> on the increase in the health, hygiene and safety inspection fee generated by your new investments.</p>
+          <ul class="reglas">
+            <li><b>100%</b><span>of the increase, if you add at least 40% more staff and two of these: +50% output, +50% equipment or +50% built area</span></li>
+            <li><b>50%</b><span>of the increase, if you add at least 20% more staff and two of these: +30% output, +30% equipment or +30% built area</span></li>
+          </ul>
+          <p class="nota">It must be requested before investing, detailing the investments and the timeframe. When the promotion period ends, a deferral of up to 50% of that fee for 5 years can also be requested, with similar requirements.</p>
+        </article>
+      </div>
+      <p class="nota">Incentives are granted by resolution of the municipal Executive, with the involvement of the Municipal Development Commission. They require a municipal tax clearance certificate and investments certified by a registered accountant. Check the conditions with the Industrial Park Office.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="servicios" aria-labelledby="t-serv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Services</p>
+        <h2 id="t-serv">Infrastructure and services</h2>
+      </div>
+      <div class="fotos">
+        <figure><img src="img/fotos/primeros-auxilios.jpg" alt="First aid room of the park with an ambulance at the door" loading="lazy"><figcaption>First aid room and emergency post (107)</figcaption></figure>
+        <figure><img src="img/fotos/banco-entre-rios.jpg" alt="Banco Entre Ríos branch inside the park" loading="lazy"><figcaption>Banco Entre Ríos branch</figcaption></figure>
+      </div>
+      <div class="serv">
+        <article class="card">
+          <h3>Utilities</h3>
+          <ul class="tick">
+            <li>Drinking water</li>
+            <li>Electricity at medium and low voltage</li>
+            <li>Natural gas</li>
+            <li>Sewerage and storm drainage</li>
+            <li>Fibre-optic internet</li>
+            <li>LED street lighting</li>
+            <li>Internal roads suitable for heavy traffic</li>
+            <li>City bus line</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>On site</h3>
+          <ul class="tick">
+            <li>Administrative offices of the Park Office</li>
+            <li>Multi-purpose hall (SUM)</li>
+            <li>First aid room</li>
+            <li>Emergency post (107)</li>
+            <li>Banco Entre Ríos branch and ATM</li>
+            <li>Rural Police station</li>
+            <li>Truck parking</li>
+            <li>Perimeter fence and green areas</li>
+          </ul>
+        </article>
+        <article class="card card-dato">
+          <h3>Security</h3>
+          <div class="datos-g">
+            <p><b>25</b><span>video surveillance cameras</span></p>
+            <p><b>24/7</b><span>monitoring centre</span></p>
+          </div>
+          <p class="nota">The park has its own video surveillance and monitoring centre.</p>
+        </article>
+        <article class="card card-dato">
+          <h3>Solar Photovoltaic Park</h3>
+          <div class="datos-g">
+            <p><b>10,400</b><span>panels</span></p>
+            <p><b>7.38 MWp</b><span>installed capacity</span></p>
+            <p><b>12 GWh</b><span>annual generation</span></p>
+          </div>
+          <p class="nota">Financed 100% with the Municipality of Paraná's own funds. Currently being commissioned.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="ubicacion" aria-labelledby="t-ubi">
+    <div class="wrap ubi">
+      <div>
+        <p class="eyebrow">Access</p>
+        <h2 id="t-ubi">Location</h2>
+        <p class="sec-lead">On Antonio Salellas street, the continuation of National Route 12. 5 km from National Route 18, 7 km from the Paraná–Santa Fe Subfluvial Tunnel and 8 km from downtown Paraná.</p>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-31.7705,-60.4535">Open in Google Maps</a>
+        <figure class="ubi-foto"><img src="img/fotos/acceso-aereo.jpg" alt="Aerial view of the road access to the park from the route" loading="lazy"></figure>
+      </div>
+      <ul class="dist">
+        <li><b>35 km</b><span>Santa Fe</span></li>
+        <li><b>46 km</b><span>Port of Diamante</span></li>
+        <li><b>200 km</b><span>Rosario</span></li>
+        <li><b>400 km</b><span>Córdoba</span></li>
+        <li><b>400 km</b><span>Port of Zárate</span></li>
+        <li><b>470 km</b><span>Buenos Aires</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="empresas" aria-labelledby="t-emp">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Companies</p>
+        <h2 id="t-emp">Companies in the park</h2>
+        <p class="sec-lead">Select a logo to visit the company's website.</p>
+      </div>
+      <div class="fotos fotos-emp">
+        <figure><img src="img/fotos/fundicion.jpg" alt="Workers pouring molten metal at a foundry in the park" loading="lazy"></figure>
+        <figure><img src="img/fotos/laboratorio.jpg" alt="Quality control laboratory of a company in the park" loading="lazy"></figure>
+        <figure><img src="img/fotos/aerea-petropack.jpg" alt="Aerial view of industrial plants in the park" loading="lazy"></figure>
+      </div>
+      <div class="emp-filtros">
+        <div class="chips" id="emp-chips" role="group" aria-label="Filter by sector"></div>
+        <label class="buscar"><span class="sr">Search company</span>
+          <input id="emp-q" type="search" placeholder="Search company or activity" autocomplete="off"></label>
+      </div>
+      <ul class="emp" id="emp-grid"></ul>
+      <p class="emp-pie"><button type="button" class="btn ghost" id="emp-mas" hidden>See all companies</button></p>
+    </div>
+  </section>
+
+  <section class="sec alt" id="radicarse" aria-labelledby="t-rad">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Application</p>
+        <h2 id="t-rad">How to set up in the park</h2>
+        <p class="sec-lead">Municipal lots are awarded to industrial production projects.</p>
+      </div>
+
+      <h3 class="sub">The process, step by step</h3>
+      <ol class="linea">
+        <li><b>Enquiry</b><span>Contact the Industrial Park Office to review available lots, price and conditions.</span></li>
+        <li><b>Application</b><span>Submit the form with your project: initial investment, covered area, staff, environmental impact report for the activity and construction timeframe. It is filed at the Municipality's general registry (Mesa General de Entradas) with a letter addressed to the Mayor.</span></li>
+        <li><b>Assessment</b><span>The Municipal Development Commission reviews the project: investment, employment, contribution to industrial development and environmental impact. With its report, the Executive issues the award decree.</span></li>
+        <li><b>Within 30 days</b><span>From notification of the decree: written acceptance of the lot, land survey and full payment or signing of the payment plan.</span></li>
+        <li><b>Within 180 days</b><span>From notification: submission of the building project to the municipal Urban Inspection Office (Dirección de Fiscalización Urbana).</span></li>
+        <li><b>180 more days</b><span>From approval of the project: start of construction.</span></li>
+        <li><b>Up to 24 months</b><span>From handover of the lot: plant licensed and operating. The term may be extended for major investments.</span></li>
+        <li><b>Title deed</b><span>With construction finished, the municipal licence obtained and the price paid, the deed is signed. Survey, plans and deed costs are borne by the company.</span></li>
+      </ol>
+
+      <div class="rad-cols">
+        <article class="card">
+          <h3>What to submit</h3>
+          <ul class="tick">
+            <li>Completed application form, signed on every page (it has the status of a sworn statement)</li>
+            <li>Company details: legal name, address, type of company and directors</li>
+            <li>Articles of association, or deed of incorporation and bylaws, depending on the type of company</li>
+            <li>Investment project: amounts by category, production process, plant layout, capacity, raw materials and staff</li>
+            <li><b>Environmental impact report for the activity</b> (Ordinance No. 8560, section 10)</li>
+            <li>Products to be made, estimated start-up date and destination of production (domestic market or export)</li>
+            <li>Capital and commercial and bank references</li>
+            <li>Existing companies: income tax return and latest balance sheet</li>
+            <li>Municipal tax clearance certificate. Companies with outstanding tax or social security debts cannot access the regime</li>
+          </ul>
+          <p class="nota">Information submitted by the company is kept confidential. Forms and regulations are in Spanish.</p>
+        </article>
+        <article class="card">
+          <h3>Building rules</h3>
+          <ul class="reglas">
+            <li><b>1,250 m²</b><span>minimum lot, with a minimum frontage of 25 m</span></li>
+            <li><b>70%</b><span>maximum of the lot occupied by works; the remaining 30%, landscaped</span></li>
+            <li><b>25% to 40%</b><span>of the lot, covered area at ground level</span></li>
+            <li><b>5 m</b><span>setback from the street line and from the other lot boundaries</span></li>
+            <li><b>2.50 m</b><span>sidewalk along the streets</span></li>
+          </ul>
+          <p class="nota">Also: 2 m chain-link perimeter fence, paved loading and parking areas, lighting inside the lot. Housing is not allowed.</p>
+        </article>
+      </div>
+
+      <div class="descargas">
+        <h3 class="sub">Downloads (in Spanish)</h3>
+        <ul>
+          <li><a href="docs/formulario-solicitud-radicacion.pdf" target="_blank" rel="noopener"><b>Application form</b><span>PDF · 5 pages</span></a></li>
+          <li><a href="docs/decreto-1263-2013-adjudicaciones.pdf" target="_blank" rel="noopener"><b>Decree No. 1263/2013</b><span>Award of lots · PDF</span></a></li>
+          <li><a href="docs/decreto-254-1978-ocupacion-y-edificacion.pdf" target="_blank" rel="noopener"><b>Decree No. 254/1978</b><span>Land use and building · PDF</span></a></li>
+          <li><a href="docs/ordenanza-8560-promocion-industrial.pdf" target="_blank" rel="noopener"><b>Ordinance No. 8560</b><span>Industrial Promotion Regime · PDF</span></a></li>
+        </ul>
+      </div>
+      <p class="nota">Legal framework: Ordinance No. 8560 (Industrial Promotion), Decree No. 1263/2013, Decree No. 254/1978, Ordinance No. 10117 (EUPI District) and Provincial Law No. 11,071. This is an informative summary in English: the Spanish text of each regulation prevails.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="comunidad" aria-labelledby="t-com">
+    <div class="wrap com">
+      <article class="card">
+        <h3 id="t-com">Municipal Development Commission</h3>
+        <p>A body that brings together the municipal Executive, the City Council and the companies in the park. It takes part in lot awards, industrial promotion and park planning.</p>
+      </article>
+      <article class="card">
+        <h3>ASEMPI</h3>
+        <p>Association of Companies of the Industrial Park: more than 40 member industries. It runs a jobs portal that connects applicants with companies in the park.</p>
+        <p class="links"><a href="https://asempi.org.ar" target="_blank" rel="noopener">asempi.org.ar</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec contacto" id="contacto" aria-labelledby="t-con">
+    <div class="wrap con">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 id="t-con">Industrial Park Office</h2>
+        <p class="sec-lead" id="con-area"></p>
+      </div>
+      <ul class="con-datos" id="con-datos"></ul>
+    </div>
+  </section>
+</main>
+
+<a class="wa-fijo" id="wa-fijo" target="_blank" rel="noopener" hidden>Contact us on WhatsApp</a>
+
+<footer class="pie">
+  <div class="wrap">
+    <p>Parque Industrial General Manuel Belgrano · Municipality of Paraná, Entre Ríos, Argentina.</p>
+    <p class="nota">Plan: Municipal Cadastre Office. Lot data is preliminary and subject to verification. Logos and descriptions: Company Catalogue of the Industrial Park.</p>
+  </div>
+</footer>
+
+<script src="config.js?v=202611101340"></script>
+<script src="sitio.js?v=202611101340"></script>
+</body>
+</html>
