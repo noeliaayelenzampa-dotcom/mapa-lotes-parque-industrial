@@ -88,7 +88,7 @@ img { max-width: 100%; }
 .plano-lotes figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13px; color: var(--muted); margin-top: 10px; }
 .plano-lotes figcaption .dot:not(:first-child) { margin-left: 8px; }
 
-.cifras { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0; padding-block: 26px 30px; border-bottom: 1px solid var(--line); }
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0; margin: 0; padding-block: 26px 30px; border-bottom: 1px solid var(--line); }
 .cifras div { padding: 0 16px 0 0; }
 .cifras dt { font: 700 clamp(24px, 2.6vw, 32px)/1.1 var(--f-display); color: var(--accent); font-variant-numeric: tabular-nums; }
 .cifras dd { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
@@ -130,7 +130,16 @@ img { max-width: 100%; }
 .lote .tit { font-size: 14px; }
 .lote .badge { align-self: flex-start; font: 700 11px/1 var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: #fff; background: var(--st-oferta); padding: 4px 7px; border-radius: 4px; }
 .lote .obs { font-size: 13px; color: var(--muted); }
-.lote .ver { font-size: 13px; font-weight: 600; color: var(--accent); margin-top: auto; }
+.lote .lote-acc { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: auto; padding-top: 6px; }
+.lote .ver { font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.lote .ver:hover { text-decoration: underline; }
+.lote .consultar { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--accent-ink); background: var(--accent); border-radius: 4px; padding: 6px 10px; }
+.lote .consultar:hover { background: var(--accent-dark); }
+.emp-pie { margin-top: 16px; }
+.idioma { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; }
+.idioma:hover { border-color: var(--accent); color: var(--accent); }
+.wa-fijo { display: none; }
+[hidden] { display: none !important; }
 
 /* Beneficios */
 .ben { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
@@ -234,9 +243,17 @@ img { max-width: 100%; }
   .rad-cols, .descargas ul { grid-template-columns: minmax(0, 1fr); }
   .cifras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nav nav { display: none; }
-  .nav .btn-sm { margin-left: auto; }
+  .nav .idioma { margin-left: auto; }
 }
 @media (max-width: 640px) {
+  .wa-fijo {
+    display: flex; align-items: center; justify-content: center; position: fixed; z-index: 30;
+    left: max(12px, env(safe-area-inset-left, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px; text-decoration: none;
+    padding: 13px 16px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+  }
+  body { padding-bottom: 72px; }
   .hero { padding-block: 32px 28px; }
   .sec { padding-block: 44px; }
   .serv, .com, .pasos, .linea { grid-template-columns: minmax(0, 1fr); }

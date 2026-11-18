@@ -32,10 +32,9 @@ window.PARQUE_CONFIG = {
 
   // Cifras de la página de inicio (fuente: informe de datos del parque, octubre 2026).
   cifras: [
-    { valor: "1979", texto: "año de inauguración" },
-    { valor: "120 ha", texto: "destinadas a lotes industriales" },
-    { valor: "49", texto: "empresas en actividad" },
-    { valor: "2.584", texto: "empleos directos" }
+    { valor: "1979", texto: "año de inauguración", textoEn: "year opened" },
+    { valor: "120 ha", texto: "destinadas a lotes industriales", textoEn: "for industrial lots" },
+    { valor: "49", texto: "empresas en actividad", textoEn: "companies operating" }
   ],
 
   // De dónde salen los datos de cada lote.

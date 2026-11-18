@@ -7,6 +7,7 @@ Sitio público del parque: página de inicio con lotes disponibles, beneficios p
 | Archivo | Para qué sirve |
 |---|---|
 | `index.html`, `sitio.js`, `sitio.css` | Página de inicio |
+| `en.html`, `data/en.json` | Página de inicio en inglés. Los textos fijos están en `en.html`; las traducciones de sectores, actividades de empresas y observaciones de lotes, en `data/en.json`. Si se cambia un texto en `index.html` o se suma una empresa, hay que actualizar también estos dos archivos |
 | `mapa.html`, `app.js`, `app.css` | Mapa interactivo de lotes (modo gestión: `mapa.html#gestion`) |
 | `config.js` | Textos, contacto, cifras de la portada, fuente de datos y ubicación satelital |
 | `data/lotes.csv` | Datos públicos de cada lote (copia de la pestaña "Público" de la planilla madre) |
